@@ -17,6 +17,7 @@
         android:theme="@style/Theme.Myprofile"
         tools:targetApi="31">
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".presenter.activity.MainActivity"
             android:exported="true">
             <intent-filter>
