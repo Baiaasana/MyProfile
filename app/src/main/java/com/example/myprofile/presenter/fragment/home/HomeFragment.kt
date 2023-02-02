@@ -13,9 +13,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     override fun listeners() {
 
-        binding.navigate.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment())
-        }
+//        binding.navigate.setOnClickListener {
+//            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment())
+//        }
     }
 
     override fun init() {
