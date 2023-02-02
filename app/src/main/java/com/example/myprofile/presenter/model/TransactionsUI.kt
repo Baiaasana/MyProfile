@@ -1,8 +1,6 @@
 package com.example.myprofile.presenter.model
 
 import com.example.myprofile.data.remote.model.TransactionsDTO
-import com.google.gson.annotations.SerializedName
-import com.squareup.moshi.Json
 
 data class TransactionsUI(
     val page: Int?,

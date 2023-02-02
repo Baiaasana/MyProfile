@@ -2,14 +2,11 @@ package com.example.myprofile.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.myprofile.data.remote.model.TransactionsDTO
 import com.example.myprofile.data.repository.TransactionsRepositoryImpl
-import com.example.myprofile.domain.model.TransactionsDomain
-import com.example.myprofile.domain.use_case.TransactionsUseCase
 import com.example.myprofile.presenter.model.TransactionsUI
 import javax.inject.Inject
 
-class TransactionsSource @Inject constructor(private val useCase: TransactionsUseCase) :
+class TransactionsSource @Inject constructor(private val repositoryImpl: TransactionsRepositoryImpl) :
     PagingSource<Int, TransactionsUI.TransactionUI>() {
     override fun getRefreshKey(state: PagingState<Int, TransactionsUI.TransactionUI>): Int? {
         return null
@@ -18,7 +15,7 @@ class TransactionsSource @Inject constructor(private val useCase: TransactionsUs
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TransactionsUI.TransactionUI> {
         return try{
             val nextPage = params.key ?: 1
-            val response = useCase.invoke(nextPage)
+            val response = repositoryImpl.getTransactions(nextPage)
 
             LoadResult.Page(
                 data = response.data!!.items!!.map { it.toDomain().toPresenter() },

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myprofile.common.BaseFragment
 import com.example.myprofile.databinding.FragmentHomeBinding
 import com.example.myprofile.presenter.adapter.TransactionAdapter
+import com.example.myprofile.presenter.model.TransactionsUI
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -33,9 +34,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     override fun observers() {
         lifecycleScope.launch {
-            viewModel.transactionsPager.collectLatest{
-                transactionAdapter.submitData(it)
-                d("log", "logF = ".plus(it))
+            viewModel.transactionsPager.collectLatest {
+                val data = it
+                transactionAdapter.submitData(data)
+
+                var lists : MutableList<TransactionsUI.TransactionUI> = transactionAdapter.snapshot().items.toMutableList()
+                d("log", "logF = ".plus(data))
+                d("log", "logF 2 = ".plus(lists))
+
+                val groupedMapMap: Map<String, List<TransactionsUI.TransactionUI>> = lists.groupBy {
+                    it.date.toString()
+                }
             }
         }
     }
