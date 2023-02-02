@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presenter.fragment.home.HomeFragment">
+    tools:context=".presenter.ui.fragment.home.HomeFragment">
 
     <LinearLayout
         android:id="@+id/ll_main"
@@ -47,37 +47,6 @@
         app:layout_constraintStart_toStartOf="@+id/ll_main"
         app:layout_constraintTop_toBottomOf="@+id/ll_main" />
 
-    <!--    <com.google.android.material.textfield.TextInputLayout-->
-    <!--        android:id="@+id/til_search"-->
-    <!--        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginHorizontal="16dp"-->
-    <!--        android:layout_marginVertical="24dp"-->
-    <!--        android:hint="ძიება"-->
-    <!--        android:backgroundTint="@android:color/darker_gray"-->
-    <!--        app:boxStrokeColor="@color/black"-->
-    <!--        app:boxCornerRadiusTopEnd="10dp"-->
-    <!--        app:boxCornerRadiusTopStart="10dp"-->
-    <!--        app:boxCornerRadiusBottomEnd="10dp"-->
-    <!--        app:boxCornerRadiusBottomStart="10dp"-->
-    <!--        app:startIconDrawable="@drawable/ic_search"-->
-    <!--        app:layout_constraintEnd_toEndOf="@+id/view"-->
-    <!--        app:layout_constraintStart_toStartOf="@+id/view"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/view"-->
-    <!--        app:boxStrokeWidth="0dp"-->
-    <!--        app:boxStrokeWidthFocused="0dp">-->
-
-    <!--        <com.google.android.material.textfield.TextInputEditText-->
-    <!--            android:id="@+id/et_search"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_gravity="center_vertical"-->
-    <!--            android:inputType="text"-->
-    <!--            android:textSize="16sp" />-->
-
-    <!--    </com.google.android.material.textfield.TextInputLayout>-->
-
     <androidx.appcompat.widget.AppCompatEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -100,13 +69,15 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_transactions"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/et_search"
         app:layout_constraintStart_toStartOf="@id/et_search"
         app:layout_constraintTop_toBottomOf="@id/et_search"
-        tools:itemCount="3"
+        tools:itemCount="5"
+        android:layout_marginBottom="50dp"
         tools:listitem="@layout/transaction_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

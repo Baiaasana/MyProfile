@@ -18,7 +18,7 @@
         tools:targetApi="31">
         <activity
             android:windowSoftInputMode="adjustPan"
-            android:name=".presenter.activity.MainActivity"
+            android:name="com.example.myprofile.presenter.ui.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

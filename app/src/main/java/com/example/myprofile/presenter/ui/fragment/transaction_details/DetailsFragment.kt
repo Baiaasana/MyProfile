@@ -1,4 +1,4 @@
-package com.example.myprofile.presenter.fragment.transaction_details
+package com.example.myprofile.presenter.ui.fragment.transaction_details
 
 import androidx.fragment.app.viewModels
 import com.example.myprofile.common.BaseFragment

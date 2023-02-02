@@ -1,4 +1,4 @@
-package com.example.myprofile.presenter.fragment.convert
+package com.example.myprofile.presenter.ui.fragment.convert
 
 import androidx.fragment.app.viewModels
 import com.example.myprofile.common.BaseFragment

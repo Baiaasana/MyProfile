@@ -1,4 +1,4 @@
-package com.example.myprofile.presenter.activity
+package com.example.myprofile.presenter.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
