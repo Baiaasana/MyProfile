@@ -3,6 +3,7 @@ package com.example.myprofile.presenter.ui.fragment.home
 import android.util.Log.d
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.filter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myprofile.common.BaseFragment
 import com.example.myprofile.databinding.FragmentHomeBinding
@@ -45,7 +46,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 val groupedMapMap: Map<String, List<TransactionsUI.TransactionUI>> = lists.groupBy {
                     it.date.toString()
                 }
+                d("log", "logF 2 = ".plus(groupedMapMap))
+
             }
         }
     }
+
 }

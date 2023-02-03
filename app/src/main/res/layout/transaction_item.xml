@@ -4,91 +4,107 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="2dp"
-    android:weightSum="1"
-    android:padding="16dp">
+    android:paddingBottom="16dp">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:backgroundTint="@android:color/darker_gray"
-        app:cardCornerRadius="10dp">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_transaction"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:padding="7dp"
-            android:scaleX="0.7"
-            android:scaleY="0.7"
-            android:src="@drawable/ic_transaction" />
-    </androidx.cardview.widget.CardView>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:weightSum="10">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_weight="2"
-            android:gravity="center_vertical"
-            android:text="ტრანსაქცია"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_subtitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_weight="2"
-            android:alpha="0.5"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:gravity="center_vertical"
-            android:text="კომენტარfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdი"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_amount"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_datee"
+        android:text="თარიღი"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginBottom="5dp"
+        android:textSize="12sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:textColor="@color/black"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_amount"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@android:color/darker_gray"
+            app:cardCornerRadius="10dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_transaction"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:padding="7dp"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:src="@drawable/ic_transaction" />
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:weightSum="10">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_weight="2"
+                android:gravity="center_vertical"
+                android:text="ტრანსაქცია"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_weight="2"
+                android:alpha="0.5"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:gravity="center_vertical"
+                android:text="კომენტარfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdი"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_amount"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="23"
-            android:layout_weight="0.1"
-            android:textSize="14sp"
+            android:orientation="horizontal"
             android:textColor="@color/black"
-            android:gravity="end|center_vertical"/>
+            android:weightSum="1">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_currency"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="$"
-            android:layout_weight="0.9"
-            android:textSize="14sp"
-            android:textColor="@color/black"
-            android:gravity="end|center_vertical"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_amount"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="23"
+                android:layout_weight="0.1"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:gravity="end|center_vertical"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_currency"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="$"
+                android:layout_weight="0.9"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:gravity="end|center_vertical"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
