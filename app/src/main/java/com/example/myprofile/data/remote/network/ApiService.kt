@@ -1,6 +1,7 @@
 package com.example.myprofile.data.remote.network
 
 import com.example.myprofile.common.Constants
+import com.example.myprofile.data.remote.model.DetailedTransactionDTO
 import com.example.myprofile.data.remote.model.TransactionsDTO
 import retrofit2.Response
 import retrofit2.http.GET
@@ -11,4 +12,6 @@ interface ApiService {
     @GET(Constants.TRANSACTIONS_END_POINT)
     suspend fun getTransactions(@Query("page") page: Int): Response<TransactionsDTO>
 
+    @GET(Constants.TRANSACTION_DETAIL_END_POINT)
+    suspend fun getTransactionById(@Query("id") id: Int): Response<DetailedTransactionDTO>
 }

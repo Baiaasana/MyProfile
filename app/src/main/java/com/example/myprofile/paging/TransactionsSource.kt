@@ -18,7 +18,7 @@ class TransactionsSource @Inject constructor(private val repositoryImpl: Transac
             val response = repositoryImpl.getTransactions(nextPage)
 
             LoadResult.Page(
-                data = response.data!!.items!!.map { it.toDomain().toPresenter() },
+                data = response.data!!.items!!.map { it.toPresenter() },
                 prevKey = if (nextPage > 1) nextPage - 1 else null,
                 nextKey = if (nextPage < 4) nextPage + 1 else null
             )

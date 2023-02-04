@@ -1,22 +1,19 @@
 package com.example.myprofile.domain.model
 
-import com.example.myprofile.data.remote.model.TransactionsDTO
 import com.example.myprofile.presenter.model.TransactionsUI
-import com.google.gson.annotations.SerializedName
-import com.squareup.moshi.Json
 
 data class TransactionsDomain(
     val page: Int?,
     val total_items: Int?,
     val per_page: Int?,
-    val items: List<TransactionsDTO.Transaction>?,
+    val items: List<TransactionDomain>?,
 ) {
     fun toPresenter(): TransactionsUI{
         return TransactionsUI(
             page = page,
             total_items = total_items,
             per_page = per_page,
-            items = items
+            items = items!!.map { it.toPresenter() }
         )
     }
     data class TransactionDomain(

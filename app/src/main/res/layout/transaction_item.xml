@@ -9,7 +9,7 @@
     android:layout_marginVertical="2dp">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_datee"
+        android:id="@+id/tv_date"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
