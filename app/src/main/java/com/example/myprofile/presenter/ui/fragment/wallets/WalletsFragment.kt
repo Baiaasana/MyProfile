@@ -1,4 +1,4 @@
-package com.example.myprofile.presenter.fragment.wallets
+package com.example.myprofile.presenter.ui.fragment.wallets
 
 import androidx.fragment.app.viewModels
 import com.example.myprofile.common.BaseFragment
