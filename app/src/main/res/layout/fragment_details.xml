@@ -57,579 +57,583 @@
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_details"
-        app:layout_constraintStart_toStartOf="@id/ll_details"
         app:layout_constraintEnd_toEndOf="@id/ll_details"
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
+        app:layout_constraintStart_toStartOf="@id/ll_details"
+        app:layout_constraintTop_toBottomOf="@id/ll_details">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:paddingBottom="100dp"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:id="@+id/ll_transaction"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="2dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                android:text="თარიღი"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="12sp" />
+            android:paddingBottom="100dp">
 
             <LinearLayout
+                android:id="@+id/ll_transaction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="1">
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="2dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cv_image"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:backgroundTint="@android:color/darker_gray"
-                    app:cardCornerRadius="10dp">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/iv_transaction"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:padding="7dp"
-                        android:scaleX="0.7"
-                        android:scaleY="0.7"
-                        android:src="@drawable/ic_transaction" />
-                </androidx.cardview.widget.CardView>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:text="თარიღი"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="12sp" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv_image"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:backgroundTint="@android:color/darker_gray"
+                        app:cardCornerRadius="10dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iv_transaction"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:padding="7dp"
+                            android:scaleX="0.7"
+                            android:scaleY="0.7"
+                            android:src="@drawable/ic_transaction" />
+                    </androidx.cardview.widget.CardView>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:weightSum="10">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="16dp"
+                            android:layout_weight="2"
+                            android:gravity="center_vertical"
+                            android:text="ტრანზაქცია"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_transaction_amount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="16dp"
+                            android:layout_weight="2"
+                            android:alpha="0.5"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="თანხა"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_amount"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:weightSum="10">
+                    android:orientation="horizontal"
+                    android:paddingVertical="8dp"
+                    android:textColor="@color/black">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
-                        android:layout_weight="2"
-                        android:gravity="center_vertical"
-                        android:text="ტრანზაქცია"
+                        android:id="@+id/tv_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom"
+                        android:text="+23.25"
                         android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        android:textSize="32sp"
+                        android:textStyle="bold" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_transaction_amount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
-                        android:layout_weight="2"
-                        android:alpha="0.5"
-                        android:ellipsize="end"
-                        android:gravity="center_vertical"
-                        android:maxLines="1"
-                        android:text="თანხა"
+                        android:id="@+id/tv_currency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom"
+                        android:paddingBottom="6dp"
+                        android:text="$"
                         android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        android:textSize="16sp" />
+
                 </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_amount"
+            <View
+                android:id="@+id/view2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:paddingVertical="8dp"
-                android:textColor="@color/black">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_amount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="+23.25"
-                    android:textStyle="bold"
-                    android:gravity="bottom"
-                    android:textColor="@color/black"
-                    android:textSize="32sp" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_currency"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="$"
-                    android:paddingBottom="6dp"
-                    android:gravity="bottom"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <View
-            android:id="@+id/view2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginVertical="10dp"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintEnd_toEndOf="@id/ll_transaction"
-            app:layout_constraintStart_toStartOf="@+id/ll_transaction"
-            app:layout_constraintTop_toBottomOf="@+id/ll_transaction" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/ll_sender"
-            android:paddingHorizontal="16dp"
-            android:layout_marginVertical="10dp"
-            app:layout_constraintEnd_toEndOf="@id/view2"
-            app:layout_constraintTop_toBottomOf="@id/view2"
-            app:layout_constraintStart_toStartOf="@id/view2"
-            android:layout_height="wrap_content">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:text="გამგზავნი"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="17sp"
-                android:layout_marginVertical="4dp"
-                android:layout_height="wrap_content"/>
+                android:layout_height="1dp"
+                android:layout_marginVertical="10dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="@id/ll_transaction"
+                app:layout_constraintStart_toStartOf="@+id/ll_transaction"
+                app:layout_constraintTop_toBottomOf="@+id/ll_transaction" />
 
             <LinearLayout
+                android:id="@+id/ll_sender"
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginVertical="12dp"
-                android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:text="გამგზავნი: "
-                    android:maxLines="1"
-                    android:gravity="start"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintEnd_toEndOf="@id/view2"
+                app:layout_constraintStart_toStartOf="@id/view2"
+                app:layout_constraintTop_toBottomOf="@id/view2">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
-                    android:text="კომპანია"
-                    android:id="@+id/tv_sender"
-                    android:maxLines="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="4dp"
+                    android:text="გამგზავნი"
                     android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:gravity="end"
-                    android:layout_gravity="end"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="12dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:maxLines="1"
+                        android:text="გამგზავნი: "
+                        android:textSize="12sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_sender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:maxLines="1"
+                        android:text="კომპანია"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="12dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:maxLines="1"
+                        android:text="ანგარიშის ნომერი: "
+                        android:textSize="12sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_sender_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:maxLines="1"
+                        android:text="GE2655454454545"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="12dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:maxLines="1"
+                        android:text="ბანკის სახელი: "
+                        android:textSize="12sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_sender_bank"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:maxLines="1"
+                        android:text="თბს"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="12dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:maxLines="1"
+                        android:text="ბანკის კოდი: "
+                        android:textSize="12sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_sender_bank_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:maxLines="1"
+                        android:text="TBC"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
+            <View
+                android:id="@+id/view3"
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginVertical="12dp"
-                android:layout_height="wrap_content">
+                android:layout_height="1dp"
+                android:layout_marginVertical="10dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="@id/ll_sender"
+                app:layout_constraintStart_toStartOf="@+id/ll_sender"
+                app:layout_constraintTop_toBottomOf="@+id/ll_sender" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:text="ანგარიშის ნომერი: "
-                    android:maxLines="1"
-                    android:gravity="start"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:id="@+id/ll_receiver"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintEnd_toEndOf="@id/view3"
+                app:layout_constraintStart_toStartOf="@id/view3"
+                app:layout_constraintTop_toBottomOf="@id/view3">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
-                    android:text="GE2655454454545"
-                    android:id="@+id/tv_sender_number"
-                    android:maxLines="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="4dp"
+                    android:text="მიმღები"
                     android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:gravity="end"
-                    android:layout_gravity="end"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="12dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:maxLines="1"
+                        android:text="მიმღები: "
+                        android:textSize="12sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_receiver"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:maxLines="1"
+                        android:text="კომპანია"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="12dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:maxLines="1"
+                        android:text="ანგარიშის ნომერი: "
+                        android:textSize="12sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_receiver_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:maxLines="1"
+                        android:text="GE2655454454545"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="12dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:maxLines="1"
+                        android:text="ბანკის სახელი: "
+                        android:textSize="12sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_receiver_bank"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:maxLines="1"
+                        android:text="თბს"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="12dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:maxLines="1"
+                        android:text="ბანკის კოდი: "
+                        android:textSize="12sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_receiver_bank_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:maxLines="1"
+                        android:text="TBC"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
             </LinearLayout>
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginVertical="10dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="@id/ll_receiver"
+                app:layout_constraintStart_toStartOf="@+id/ll_receiver"
+                app:layout_constraintTop_toBottomOf="@+id/ll_receiver" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginVertical="12dp"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@drawable/custom_back_search"
+                android:orientation="vertical"
+                android:padding="16dp"
+                app:layout_constraintEnd_toEndOf="@id/view4"
+                app:layout_constraintStart_toStartOf="@id/view4"
+                app:layout_constraintTop_toBottomOf="@id/view4">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:text="ბანკის სახელი: "
-                    android:maxLines="1"
-                    android:gravity="start"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:text="თბს"
-                    android:id="@+id/tv_sender_bank"
-                    android:maxLines="1"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:gravity="end"
-                    android:layout_gravity="end"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:maxLines="1"
+                        android:text="დოკუმენტის ნომერი # "
+                        android:textSize="12sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_document_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:maxLines="1"
+                        android:text="3"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:maxLines="1"
+                        android:text="ოპერაციის კოდი "
+                        android:textSize="12sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_operation_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:maxLines="1"
+                        android:text="4545"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:maxLines="1"
+                        android:text="გაყიდვა"
+                        android:textSize="12sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_sold_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:maxLines="1"
+                        android:text="45$"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:maxLines="1"
+                        android:text="ყიდვა"
+                        android:textSize="12sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_purchased_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:maxLines="1"
+                        android:text="456L"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:maxLines="1"
+                        android:text="კურსი "
+                        android:textSize="12sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_course"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:maxLines="1"
+                        android:text="1$ = 2.6L"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginVertical="12dp"
-                android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:text="ბანკის კოდი: "
-                    android:maxLines="1"
-                    android:gravity="start"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:text="TBC"
-                    android:maxLines="1"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:gravity="end"
-                    android:id="@+id/tv_sender_bank_code"
-                    android:layout_gravity="end"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <View
-            android:id="@+id/view3"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginVertical="10dp"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintEnd_toEndOf="@id/ll_sender"
-            app:layout_constraintStart_toStartOf="@+id/ll_sender"
-            app:layout_constraintTop_toBottomOf="@+id/ll_sender" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/ll_receiver"
-            android:paddingHorizontal="16dp"
-            android:layout_marginVertical="10dp"
-            app:layout_constraintStart_toStartOf="@id/view3"
-            app:layout_constraintEnd_toEndOf="@id/view3"
-            app:layout_constraintTop_toBottomOf="@id/view3"
-            android:layout_height="wrap_content">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:text="მიმღები"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="17sp"
-                android:layout_marginVertical="4dp"
-                android:layout_height="wrap_content"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginVertical="12dp"
-                android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:text="მიმღები: "
-                    android:maxLines="1"
-                    android:gravity="start"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:text="კომპანია"
-                    android:id="@+id/tv_receiver"
-                    android:maxLines="1"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:gravity="end"
-                    android:layout_gravity="end"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginVertical="12dp"
-                android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:text="ანგარიშის ნომერი: "
-                    android:maxLines="1"
-                    android:gravity="start"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:text="GE2655454454545"
-                    android:id="@+id/tv_receiver_number"
-                    android:maxLines="1"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:gravity="end"
-                    android:layout_gravity="end"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginVertical="12dp"
-                android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:text="ბანკის სახელი: "
-                    android:maxLines="1"
-                    android:gravity="start"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:text="თბს"
-                    android:id="@+id/tv_receiver_bank"
-                    android:maxLines="1"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:gravity="end"
-                    android:layout_gravity="end"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginVertical="12dp"
-                android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:text="ბანკის კოდი: "
-                    android:maxLines="1"
-                    android:gravity="start"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:text="TBC"
-                    android:maxLines="1"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:gravity="end"
-                    android:id="@+id/tv_receiver_bank_code"
-                    android:layout_gravity="end"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <View
-            android:id="@+id/view4"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginVertical="10dp"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintEnd_toEndOf="@id/ll_receiver"
-            app:layout_constraintStart_toStartOf="@+id/ll_receiver"
-            app:layout_constraintTop_toBottomOf="@+id/ll_receiver" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_margin="16dp"
-            android:padding="16dp"
-            android:background="@drawable/custom_back_search"
-            app:layout_constraintStart_toStartOf="@id/view4"
-            app:layout_constraintEnd_toEndOf="@id/view4"
-            app:layout_constraintTop_toBottomOf="@id/view4"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginVertical="8dp"
-                android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:text="დოკუმენტის ნომერი # "
-                    android:maxLines="1"
-                    android:gravity="start"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:text="3"
-                    android:maxLines="1"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:gravity="end"
-                    android:id="@+id/tv_document_number"
-                    android:layout_gravity="end"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginVertical="8dp"
-                android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:text="ოპერაციის კოდი "
-                    android:maxLines="1"
-                    android:gravity="start"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:text="4545"
-                    android:maxLines="1"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:gravity="end"
-                    android:id="@+id/tv_operation_code"
-                    android:layout_gravity="end"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginVertical="8dp"
-                android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:text="გაყიდვა"
-                    android:maxLines="1"
-                    android:gravity="start"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:text="45$"
-                    android:maxLines="1"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:gravity="end"
-                    android:id="@+id/tv_sold_amount"
-                    android:layout_gravity="end"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginVertical="8dp"
-                android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:text="ყიდვა"
-                    android:maxLines="1"
-                    android:gravity="start"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:text="456L"
-                    android:maxLines="1"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:gravity="end"
-                    android:id="@+id/tv_purchased_amount"
-                    android:layout_gravity="end"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="12dp"
-                android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:text="კურსი "
-                    android:maxLines="1"
-                    android:gravity="start"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:text="1$ = 2.6L"
-                    android:maxLines="1"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:gravity="end"
-                    android:id="@+id/tv_course"
-                    android:layout_gravity="end"
-                    android:textSize="12sp"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
