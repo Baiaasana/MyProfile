@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Myprofile</string>
+    <integer name="config_navAnimTime">150</integer>
 </resources>

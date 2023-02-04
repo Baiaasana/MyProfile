@@ -31,8 +31,6 @@ class DetailsViewModel @Inject constructor(
                         val result = it.data!!.toPresenter()
                         _detailedTransactionFlow.value =
                             _detailedTransactionFlow.value.copy(isLoading = false, data = result)
-                        d("log", "log VM".plus(result))
-                        d("log", "log VM".plus(detailedTransactionFlow.value))
                     }
                     Resource.Status.ERROR -> {
                         _detailedTransactionFlow.value = _detailedTransactionFlow.value.copy(

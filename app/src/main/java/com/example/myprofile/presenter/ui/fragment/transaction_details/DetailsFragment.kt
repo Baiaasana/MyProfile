@@ -58,7 +58,6 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(FragmentDetailsBind
                         item?.amount.toString().plus(item?.currency.toString())
                     tvTitle.text = item?.title.toString()
                 }
-                d("log", "log F ".plus(item))
             }
         }
     }
