@@ -6,15 +6,15 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="2dp"
-    android:paddingBottom="16dp">
+    android:layout_marginVertical="2dp">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_datee"
-        android:text="თარიღი"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@android:color/darker_gray"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:textSize="12sp"/>
 
@@ -22,6 +22,7 @@
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:weightSum="1"
+        android:layout_marginVertical="5dp"
         android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
