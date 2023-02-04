@@ -1,11 +1,9 @@
 package com.example.myprofile.presenter.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -18,18 +16,24 @@ class TransactionAdapter :
     PagingDataAdapter<TransactionsUI.TransactionUI, TransactionAdapter.TransactionViewHolder>(
         TransactionItemCallback) {
 
+    var onTransactionClickListener: ((TransactionsUI.TransactionUI) -> Unit?)? = null
+
     inner class TransactionViewHolder(private val binding: TransactionItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind() {
             val item = getItem(bindingAdapterPosition) as TransactionsUI.TransactionUI
-            if(item.id == 1){
+            if (item.id == 1) {
                 binding.apply {
                     tvTitle.text = item.title.toString()
                     tvSubtitle.text = item.subtitle.toString()
                     tvAmount.text = item.amunt.toString()
-                    tvDatee.visibility = VISIBLE
-                    tvDatee.text = item.date.let { getData(it!!.toLong(), "yyyy.MM.dd HH:mm").toString() }
+                    tvDate.visibility = VISIBLE
+                    tvDate.text =
+                        item.date.let { getData(it!!.toLong(), "yyyy.MM.dd HH:mm").toString() }
                     tvCurrency.text = item.currency.toString()
+                    root.setOnClickListener {
+                        onTransactionClickListener?.invoke(item)
+                    }
                 }
             }else{
                 val postItem = getItem(bindingAdapterPosition-1) as TransactionsUI.TransactionUI
@@ -38,18 +42,25 @@ class TransactionAdapter :
                         tvTitle.text = item.title.toString()
                         tvSubtitle.text = item.subtitle.toString()
                         tvAmount.text = item.amunt.toString()
-                        tvDatee.text = ""
-                        tvDatee.visibility = GONE
+                        tvDate.text = ""
+                        tvDate.visibility = GONE
                         tvCurrency.text = item.currency.toString()
+                        root.setOnClickListener {
+                            onTransactionClickListener?.invoke(item)
+                        }
                     }
                 } else if(item.date.toString() != postItem.date.toString()){
                     binding.apply {
                         tvTitle.text = item.title.toString()
                         tvSubtitle.text = item.subtitle.toString()
-                        tvDatee.text = item.date.let { getData(it!!.toLong(), "yyyy.MM.dd HH:mm").toString() }
+                        tvDate.text =
+                            item.date.let { getData(it!!.toLong(), "yyyy.MM.dd HH:mm").toString() }
                         tvAmount.text = item.amunt.toString()
-                        tvDatee.visibility = VISIBLE
+                        tvDate.visibility = VISIBLE
                         tvCurrency.text = item.currency.toString()
+                        root.setOnClickListener {
+                            onTransactionClickListener?.invoke(item)
+                        }
                     }
                 }
             }
@@ -64,7 +75,6 @@ class TransactionAdapter :
         return TransactionViewHolder(TransactionItemBinding.inflate(LayoutInflater.from(parent.context),
             parent,
             false))
-
     }
 
     fun getData(milliSeconds: Long, dateFormat: String?): String? {

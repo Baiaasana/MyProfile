@@ -1,6 +1,8 @@
 package com.example.myprofile.di
 
+import com.example.myprofile.data.repository.DetailedTransactionRepositoryImpl
 import com.example.myprofile.data.repository.TransactionsRepositoryImpl
+import com.example.myprofile.domain.repository.DetailedTransactionRepository
 import com.example.myprofile.domain.repository.TransactionsRepository
 import dagger.Binds
 import dagger.Module
@@ -18,4 +20,9 @@ abstract class RepositoryModule {
         transactionsRepositoryImpl: TransactionsRepositoryImpl,
     ): TransactionsRepository
 
+    @Binds
+    @Singleton
+    abstract fun bindDetailedTransactionRepository(
+        detailedTransactionRepositoryImpl: DetailedTransactionRepositoryImpl,
+    ): DetailedTransactionRepository
 }

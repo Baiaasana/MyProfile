@@ -6,26 +6,27 @@ data class TransactionsDTO(
     val page: Int?,
     val total_items: Int?,
     val per_page: Int?,
-    val items: List<Transaction>?,
-    ) {
+    val items: List<TransactionDTO>?,
+) {
 
     fun toDomain(): TransactionsDomain{
         return TransactionsDomain(
             page = page,
             total_items = total_items,
             per_page = per_page,
-            items = items,
+            items = items?.map { it.toDomain() },
         )
     }
-    data class Transaction(
+
+    data class TransactionDTO(
         val id: Int?,
         val title: String?,
         val subtitle: String?,
         val amunt: Float?,
         val currency: String?,
         val date: Long?,
-    ){
-        fun toDomain(): TransactionsDomain.TransactionDomain{
+    ) {
+        fun toDomain(): TransactionsDomain.TransactionDomain {
             return TransactionsDomain.TransactionDomain(
                 id = id,
                 title = title,

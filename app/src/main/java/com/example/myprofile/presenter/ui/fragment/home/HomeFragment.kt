@@ -1,9 +1,8 @@
 package com.example.myprofile.presenter.ui.fragment.home
 
-import android.util.Log.d
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.filter
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myprofile.common.BaseFragment
 import com.example.myprofile.databinding.FragmentHomeBinding
@@ -20,36 +19,36 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private val transactionAdapter: TransactionAdapter = TransactionAdapter()
 
     override fun listeners() {
+
+        transactionAdapter.onTransactionClickListener = {
+            navigateToDetails(it)
+        }
     }
 
     override fun init() {
         initRecycler()
     }
 
-    private fun initRecycler(){
+    private fun initRecycler() {
         binding.rvTransactions.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = transactionAdapter
         }
     }
 
+    private fun navigateToDetails(transaction: TransactionsUI.TransactionUI) {
+        findNavController().navigate(
+            HomeFragmentDirections.actionHomeFragmentToDetailsFragment(
+                id = transaction.id!!.toInt(), date = transaction.date!!
+            )
+        )
+    }
+
     override fun observers() {
         lifecycleScope.launch {
             viewModel.transactionsPager.collectLatest {
-                val data = it
-                transactionAdapter.submitData(data)
-
-                var lists : MutableList<TransactionsUI.TransactionUI> = transactionAdapter.snapshot().items.toMutableList()
-                d("log", "logF = ".plus(data))
-                d("log", "logF 2 = ".plus(lists))
-
-                val groupedMapMap: Map<String, List<TransactionsUI.TransactionUI>> = lists.groupBy {
-                    it.date.toString()
-                }
-                d("log", "logF 2 = ".plus(groupedMapMap))
-
+                transactionAdapter.submitData(it)
             }
         }
     }
-
 }

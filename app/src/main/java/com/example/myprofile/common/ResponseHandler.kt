@@ -1,5 +1,6 @@
 package com.example.myprofile.common
 
+import android.util.Log.d
 import retrofit2.Response
 
 class ResponseHandler {
@@ -10,6 +11,7 @@ class ResponseHandler {
             Resource.loading(null)
             val response = request.invoke()
             val result = response.body()!!
+            d("log", "log handler".plus(result))
             if (response.isSuccessful) {
                 Resource.success(result)
             } else {
