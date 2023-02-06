@@ -49,5 +49,9 @@
         android:id="@+id/walletsFragment"
         android:name="com.example.myprofile.presenter.ui.fragment.wallets.WalletsFragment"
         android:label="fragment_wallets"
-        tools:layout="@layout/fragment_wallets" />
+        tools:layout="@layout/fragment_wallets" >
+        <action
+            android:id="@+id/action_walletsFragment_to_convertFragment"
+            app:destination="@id/convertFragment" />
+    </fragment>
 </navigation>
