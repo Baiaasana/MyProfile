@@ -95,9 +95,16 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
             && binding.tvCurrencyTo.text == CourseSymbols.GEL.symbol
         ) {
             courseFromUSDtoGEL()
+        }else if (binding.tvCurrencyFrom.text == CourseSymbols.GEL.symbol
+            && binding.tvCurrencyTo.text == CourseSymbols.EUR.symbol
+        ) {
+            courseFromGELtoEUR()
+        }else if (binding.tvCurrencyFrom.text == CourseSymbols.GEL.symbol
+            && binding.tvCurrencyTo.text == CourseSymbols.RUB.symbol
+        ) {
+            courseFromGELtoRUB()
         }
         getCourses()
-
     }
 
     private fun convertGELtoUSD(amount: Float? = 0.00F) {
@@ -123,6 +130,16 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
     private fun courseFromUSDtoGEL() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getCourse("USD", "GEL")
+        }
+    }
+    private fun courseFromGELtoRUB() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getCourse("GEL", "EUR")
+        }
+    }
+    private fun courseFromGELtoEUR() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getCourse("GEL", "RUB")
         }
     }
 
