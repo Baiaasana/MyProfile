@@ -2,8 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs.kotlin'
-//    id 'dagger.hilt.android.plugin'
-//    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
 }
@@ -77,6 +76,10 @@ dependencies {
 
     //paging 3
     implementation("androidx.paging:paging-runtime:3.1.1")
+
+    // edittext
+    implementation 'androidx.core:core-ktx:1.0.0'
+
 
 }
 kapt {
