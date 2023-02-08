@@ -9,8 +9,3 @@ data class WalletUI(
     val account_number: Long? = 0L,
 )
 
-
-//data class WalletListModel(
-//    val walletList: MutableList<WalletUI>? = mutableListOf()
-//)
-

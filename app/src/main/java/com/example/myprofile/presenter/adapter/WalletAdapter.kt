@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myprofile.common.CourseSymbols
+import com.example.myprofile.common.Symbols
 import com.example.myprofile.databinding.WalletItemBinding
 import com.example.myprofile.presenter.model.WalletUI
 
 class WalletAdapter :
-    ListAdapter<WalletUI, WalletAdapter.WalletViewHolder>(ItemCallback) {
+    ListAdapter<WalletUI, WalletAdapter.WalletViewHolder>(ItemCallback), Symbols {
 
     var onWalletClickListener: ((WalletUI) -> Unit)? = null
 
@@ -41,16 +41,6 @@ class WalletAdapter :
                     ivIsDefault.visibility = View.VISIBLE
                 }
             }
-        }
-    }
-
-    private fun setSymbol(course: String): String {
-
-        return when (course) {
-            CourseSymbols.GEL.name -> CourseSymbols.GEL.symbol
-            CourseSymbols.USD.name -> CourseSymbols.USD.symbol
-            CourseSymbols.EUR.name -> CourseSymbols.EUR.symbol
-            else -> CourseSymbols.RUB.symbol
         }
     }
 

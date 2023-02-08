@@ -13,10 +13,6 @@ object DataStore {
 
     private val Application.store by preferencesDataStore(name = Constants.KEY)
 
-    fun getPreferences(): Flow<Preferences> {
-        return App.context.store.data
-    }
-
     suspend fun save(key: String, value: Int) {
         App.context.store.edit {
             it[stringPreferencesKey(key)] = value.toString()

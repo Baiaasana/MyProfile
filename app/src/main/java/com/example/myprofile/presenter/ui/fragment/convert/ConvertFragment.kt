@@ -11,19 +11,17 @@ import androidx.navigation.fragment.navArgs
 import com.example.myprofile.common.BaseFragment
 import com.example.myprofile.common.Constants
 import com.example.myprofile.common.CourseSymbols
+import com.example.myprofile.common.Symbols
 import com.example.myprofile.databinding.FragmentConvertBinding
 import com.example.myprofile.presenter.model.WalletUI
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBinding::inflate) {
+class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBinding::inflate), Symbols {
 
     private val viewModel: ConvertViewModel by viewModels()
     private val args: ConvertFragmentArgs by navArgs()
@@ -60,7 +58,7 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
             try {
                 if (checkWalletsCourses()) {
                     Toast.makeText(context, "აირჩიეთ ვალიდური ანგარიში", Toast.LENGTH_SHORT).show()
-                }else if (checkText(binding.etAmountFrom.text.toString()) && checkFloat(binding.etAmountFrom.text.toString())) {
+                } else if (checkText(binding.etAmountFrom.text.toString()) && checkFloat(binding.etAmountFrom.text.toString())) {
                     Toast.makeText(context, "ოპერაცია წარმატებით შესრულდა", Toast.LENGTH_SHORT)
                         .show()
 
@@ -71,8 +69,8 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
                         olfFrom = binding.tvAmountFrom.text.toString().toFloat(),
                         oldTo = binding.tvAmountTo.text.toString().toFloat())
 
-                    showFromWallet(readID(Constants.KEY_FROM))
-                    showToWallet(readID(Constants.KEY_TO))
+//                    showFromWallet(readID(Constants.KEY_FROM))
+//                    showToWallet(readID(Constants.KEY_TO))
 
 //                    updateBalance()
 
@@ -121,7 +119,7 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
         }
     }
 
-    private fun updateFields(walletID: Int) : Float {
+    private fun updateFields(walletID: Int): Float {
 
         var list = mutableListOf<WalletUI>()
         var updatedBalance = 0F
@@ -139,7 +137,6 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
         }
         return updatedBalance
     }
-
 
 
     private fun updateDataInDatabase(
@@ -223,88 +220,77 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
         }
     }
 
-    private fun showFromWallet(fromID: Int? = 1) {
+    private fun showFromWallet(fromID: Int) {
 
         var list = mutableListOf<WalletUI>()
-        firebaseDatabase.getReference("wallets")
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    snapshot.children.forEach {
-                        val item = it.getValue(WalletUI::class.java) ?: return
-                        list.add(item)
-                    }
-                    val fromItem = list.find { it.id == fromID }!!
-                    try {
-                        binding.apply {
+        firebaseDatabase.getReference("wallets").get().addOnSuccessListener {
+            it.children.forEach {
+                val item = it.getValue(WalletUI::class.java)
+                item?.let { it1 -> list.add(it1) }
+            }
+            val fromItem = list.find { it.id == fromID }!!
+            try {
+                binding.apply {
 
-                            tvCurrencyFrom.text = setSymbol(fromItem.currency.toString())
-                            val toSymbol = tvCurrencyFrom.text.toString()
-                            tveCurrencyFrom.text = toSymbol
-                            tvCurrencyFromNormal.text = toSymbol
-                            tvCurrencyFromOwn.text = toSymbol
-                            tvTitleFrom.text = fromItem.title.toString()
-                            tvAccountFrom.text = fromItem.account_number.toString()
-                                .plus("(${fromItem.currency.toString()})")
-                            tvAmountFrom.text = fromItem.balance.toString()
-                            showCourses()
-                            showSymbols()
-                        }
-                    } catch (e: Exception) {
-                        d("log", "log E - ".plus(e.message.toString()))
-                    }
+                    tvCurrencyFrom.text = setSymbol(fromItem.currency.toString())
+                    val toSymbol = tvCurrencyFrom.text.toString()
+                    tveCurrencyFrom.text = toSymbol
+                    tvCurrencyFromNormal.text = toSymbol
+                    tvCurrencyFromOwn.text = toSymbol
+                    tvTitleFrom.text = fromItem.title.toString()
+                    tvAccountFrom.text = fromItem.account_number.toString()
+                        .plus("(${fromItem.currency.toString()})")
+                    tvAmountFrom.text = fromItem.balance.toString()
+                    showCourses()
+                    showSymbols()
                 }
-                override fun onCancelled(error: DatabaseError) {
-                }
-            })
-    }
-
-    private fun showToWallet(toID: Int? = 1) {
-
-        var list = mutableListOf<WalletUI>()
-
-        firebaseDatabase.getReference("wallets")
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    snapshot.children.forEach {
-                        val item = it.getValue(WalletUI::class.java) ?: return
-                        list.add(item)
-                    }
-                    val toItem = list.find { it.id.toString() == toID.toString() }!!
-
-                    try {
-                        binding.apply {
-                            tvCurrencyTo.text = setSymbol(toItem.currency.toString())
-                            val toSymbol = tvCurrencyTo.text.toString()
-                            tveCurrencyTo.text = toSymbol
-                            tvCurrencyToNormal.text = toSymbol
-                            tvCurrencyToOwn.text = toSymbol
-                            tvTitleTo.text = toItem.title.toString()
-                            tvAccountTo.text = toItem.account_number.toString()
-                                .plus("(${toItem.currency.toString()})")
-                            tvAmountTo.text = toItem.balance.toString()
-                            showCourses()
-                            showSymbols()
-                        }
-                    } catch (e: Exception) {
-                        d("log", "log E - ".plus(e.message.toString()))
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                }
-            })
+            } catch (e: Exception) {
+                d("log", "log E - ".plus(e.message.toString()))
+            }
+        }
 
     }
 
-    private fun setSymbol(course: String): String {
+    private fun showToWallet(toID: Int) {
 
-        return when (course) {
-            CourseSymbols.GEL.name -> CourseSymbols.GEL.symbol
-            CourseSymbols.USD.name -> CourseSymbols.USD.symbol
-            CourseSymbols.EUR.name -> CourseSymbols.EUR.symbol
-            else -> CourseSymbols.RUB.symbol
+        var list = mutableListOf<WalletUI>()
+
+        firebaseDatabase.getReference("wallets").get().addOnSuccessListener {
+            it.children.forEach {
+                val item = it.getValue(WalletUI::class.java)
+                item?.let { it1 -> list.add(it1) }
+            }
+            val toItem = list.find { it.id.toString() == toID.toString() }!!
+
+            try {
+                binding.apply {
+                    tvCurrencyTo.text = setSymbol(toItem.currency.toString())
+                    val toSymbol = tvCurrencyTo.text.toString()
+                    tveCurrencyTo.text = toSymbol
+                    tvCurrencyToNormal.text = toSymbol
+                    tvCurrencyToOwn.text = toSymbol
+                    tvTitleTo.text = toItem.title.toString()
+                    tvAccountTo.text = toItem.account_number.toString()
+                        .plus("(${toItem.currency.toString()})")
+                    tvAmountTo.text = toItem.balance.toString()
+                    showCourses()
+                    showSymbols()
+                }
+            } catch (e: Exception) {
+                d("log", "log E - ".plus(e.message.toString()))
+            }
         }
     }
+
+//    private fun setSymbol(course: String): String {
+//
+//        return when (course) {
+//            CourseSymbols.GEL.name -> CourseSymbols.GEL.symbol
+//            CourseSymbols.USD.name -> CourseSymbols.USD.symbol
+//            CourseSymbols.EUR.name -> CourseSymbols.EUR.symbol
+//            else -> CourseSymbols.RUB.symbol
+//        }
+//    }
 
 
     private fun showCourses() {

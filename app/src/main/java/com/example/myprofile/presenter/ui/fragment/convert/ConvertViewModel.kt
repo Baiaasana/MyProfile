@@ -73,10 +73,6 @@ class ConvertViewModel @Inject constructor(
         }
     }
 
-     fun updateData(walletID:Float, newBalance: Float){
-        walletsUseCase.updateData(oldBalance = walletID, newBalance = newBalance)
-    }
-
     suspend fun read(key: String) : String {
         return DataStore.read(key)!!
     }

@@ -27,25 +27,5 @@ class WalletsUseCase @Inject constructor(
             })
     }
 
-    fun updateData(oldBalance: Float, newBalance: Float) {
-
-        var list = mutableListOf<WalletUI>()
-
-        firebaseDatabase.getReference("wallets")
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    snapshot.children.forEach {
-                        val item = it.getValue(WalletUI::class.java) ?: return
-                        list.add(item)
-                    }
-                    list.find {
-                        it.balance.toString().toFloat() == oldBalance
-                    }!!.balance!!.plus(newBalance-oldBalance)
-                    firebaseDatabase.getReference("wallets").setValue(list)
-                }
-                override fun onCancelled(error: DatabaseError) {
-                }
-            })
-    }
 }
 
