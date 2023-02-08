@@ -1,23 +1,31 @@
 package com.example.myprofile.presenter.ui.fragment.wallets
 
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myprofile.common.BaseFragment
 import com.example.myprofile.databinding.FragmentWalletsBinding
 import com.example.myprofile.presenter.adapter.WalletAdapter
+import com.example.myprofile.presenter.model.WalletUI
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class WalletsFragment : BaseFragment<FragmentWalletsBinding>(FragmentWalletsBinding::inflate) {
 
     private val viewModel: WalletsViewModel by viewModels()
     private val walletAdapter: WalletAdapter = WalletAdapter()
+
+    private val args: WalletsFragmentArgs by navArgs()
+
+    var id : Int? = 1
+
+    @Inject lateinit var reference: FirebaseDatabase
 
     override fun listeners() {
 
@@ -26,23 +34,22 @@ class WalletsFragment : BaseFragment<FragmentWalletsBinding>(FragmentWalletsBind
                 findNavController().navigate(WalletsFragmentDirections.actionWalletsFragmentToConvertFragment())
             }
             binding.btnContinue.setOnClickListener {
-                findNavController().navigate(WalletsFragmentDirections.actionWalletsFragmentToConvertFragment())
+
+                if(args.type == "from"){
+                    findNavController().navigate(WalletsFragmentDirections.actionWalletsFragmentToConvertFragment(type = args.type, fromID = id!!, toID = args.toID))
+                }
+                if(args.type == "to"){
+                    findNavController().navigate(WalletsFragmentDirections.actionWalletsFragmentToConvertFragment(type = args.type, toID = id!!, fromID = args.fromID))
+                }
             }
         }
 
         walletAdapter.onWalletClickListener = { wallet ->
-            val list = walletAdapter.currentList
-            list.forEach {
-                it.is_default =false
-            }
-            walletAdapter.submitList(list.toList())
+            id = wallet.id
         }
     }
 
     override fun init() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getWallets()
-        }
         initRecycler()
     }
 
@@ -51,16 +58,23 @@ class WalletsFragment : BaseFragment<FragmentWalletsBinding>(FragmentWalletsBind
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = walletAdapter
         }
+
+        val list = mutableListOf<WalletUI>()
+        reference.getReference("wallets")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.children.forEach {
+                        val item = it.getValue(WalletUI::class.java) ?: return
+                        list.add(item)
+                    }
+                    walletAdapter.submitList(list)
+                }
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
     }
 
     override fun observers() {
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.walletsFlow.collectLatest {
-                    walletAdapter.submitList(it.data)
-                }
-            }
-        }
     }
 }

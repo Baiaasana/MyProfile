@@ -13,6 +13,18 @@
         <action
             android:id="@+id/action_convertFragment_to_walletsFragment"
             app:destination="@id/walletsFragment" />
+        <argument
+            android:name="fromID"
+            app:argType="integer"
+            android:defaultValue="1" />
+        <argument
+            android:name="type"
+            app:argType="string"
+            android:defaultValue="null" />
+        <argument
+            android:name="toID"
+            app:argType="integer"
+            android:defaultValue="1" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
@@ -53,5 +65,17 @@
         <action
             android:id="@+id/action_walletsFragment_to_convertFragment"
             app:destination="@id/convertFragment" />
+        <argument
+            android:name="type"
+            app:argType="string"
+            android:defaultValue="null" />
+        <argument
+            android:name="fromID"
+            app:argType="integer"
+            android:defaultValue="1" />
+        <argument
+            android:name="toID"
+            app:argType="integer"
+            android:defaultValue="1" />
     </fragment>
 </navigation>

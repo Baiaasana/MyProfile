@@ -8,7 +8,7 @@ import com.example.myprofile.domain.repository.DetailedTransactionRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class CourseUsesCase @Inject constructor(
+class GetCourseUsesCase @Inject constructor(
     private val repository: CourseRepository,
 ) {
     suspend fun invoke(from: String, to:String): Flow<Resource<CourseDomain>> {
