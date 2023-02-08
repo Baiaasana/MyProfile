@@ -64,15 +64,17 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
                     Toast.makeText(context, "ოპერაცია წარმატებით შესრულდა", Toast.LENGTH_SHORT)
                         .show()
 
-                    updateData(walletID = readID(Constants.KEY_FROM),
-                        newBalance = binding.tvAmountFrom.text.toString().toFloat()
-                            .minus(binding.etAmountFrom.text.toString().toFloat()))
+                    updateData(fromID = readID(Constants.KEY_FROM),
+                        toID = readID(Constants.KEY_TO),
+                        myFrom = binding.etAmountFrom.text.toString().toFloat(),
+                        myTo = binding.etAmountTo.text.toString().toFloat(),
+                        olfFrom = binding.tvAmountFrom.text.toString().toFloat(),
+                        oldTo = binding.tvAmountTo.text.toString().toFloat())
 
-                    updateData(walletID = readID(Constants.KEY_TO),
-                        newBalance = binding.tvAmountTo.text.toString().toFloat()
-                            .plus(binding.etAmountTo.text.toString().toFloat()))
+                    showFromWallet(readID(Constants.KEY_FROM))
+                    showToWallet(readID(Constants.KEY_TO))
 
-                    updateBalance()
+//                    updateBalance()
 
                 } else {
                     Toast.makeText(context,
@@ -87,6 +89,22 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
         }
     }
 
+    private fun updateData(
+        toID: Int,
+        fromID: Int,
+        olfFrom: Float,
+        myFrom: Float,
+        oldTo: Float,
+        myTo: Float,
+    ) {
+
+        updateDataInDatabase(
+            walletIdFrom = fromID, walletIdTo = toID,
+            newBalanceFrom = olfFrom.minus(myFrom), newBalanceTo = oldTo.plus(myTo)
+        )
+
+    }
+
     private fun readID(key: String): Int {
         var id: Int = 1
         viewLifecycleOwner.lifecycleScope.launch {
@@ -95,7 +113,7 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
         return id
     }
 
-    private fun updateBalance(){
+    private fun updateBalance() {
         binding.apply {
             tvAmountFrom.text = updateFields(readID(Constants.KEY_FROM)).toString()
             tvAmountTo.text = updateFields(readID(Constants.KEY_TO)).toString()
@@ -122,10 +140,16 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
         return updatedBalance
     }
 
-    private fun updateData(walletID: Int, newBalance: Float) {
+
+
+    private fun updateDataInDatabase(
+        walletIdFrom: Int,
+        walletIdTo: Int,
+        newBalanceFrom: Float,
+        newBalanceTo: Float,
+    ) {
 
         var list = mutableListOf<WalletUI>()
-
         firebaseDatabase.getReference("wallets").get().addOnSuccessListener {
             it.children.forEach {
                 val item = it.getValue(WalletUI::class.java)
@@ -133,15 +157,25 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
             }
 
             val updatedList = list.map {
-                if (it.id == walletID) {
-                    it.copy(balance = newBalance)
+                if (it.id == walletIdFrom) {
+                    it.copy(balance = newBalanceFrom)
                 } else {
                     it
                 }
             }
-            firebaseDatabase.getReference("wallets").removeValue().addOnSuccessListener {
-                firebaseDatabase.getReference("wallets").setValue(updatedList)
+
+            val updatedList2 = updatedList.map {
+                if (it.id == walletIdTo) {
+                    it.copy(balance = newBalanceTo)
+                } else {
+                    it
+                }
             }
+
+            firebaseDatabase.getReference("wallets").removeValue().addOnCompleteListener {
+                firebaseDatabase.getReference("wallets").setValue(updatedList2)
+            }
+
         }.addOnFailureListener {
         }
     }
