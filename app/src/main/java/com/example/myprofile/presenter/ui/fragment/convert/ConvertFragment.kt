@@ -44,10 +44,15 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
 
         binding.etAmountFrom.doOnTextChanged { text, start, count, after ->
             try {
-                if (checkText(text.toString())) {
-                    convertGELtoUSD(text.toString().toFloat())
+                if (text.toString().toFloat() > binding.tvAmountFrom.text.toString().toFloat()) {
+                    Toast.makeText(context, "შეიყვანეთ ვალიდური რიცხვი", Toast.LENGTH_SHORT).show()
+                    binding.btnContinue.isClickable = false
+                } else if (checkText(text.toString())) {
+                    binding.etAmountTo.text = convertToAnotherCourse(text.toString().toFloat(),
+                        rate = binding.tvAmountToNormal.text.toString().toFloat()).toString()
                 } else {
-                    convertGELtoUSD(0.00F)
+                    binding.etAmountTo.text = convertToAnotherCourse(0.00F,
+                        rate = binding.tvAmountToNormal.text.toString().toFloat()).toString()
                 }
             } catch (e: NumberFormatException) {
                 Toast.makeText(context, "შეიყვანეთ რიცხვი", Toast.LENGTH_SHORT).show()
@@ -56,8 +61,18 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
 
         binding.btnContinue.setOnClickListener {
             try {
-                if (checkWalletsCourses()) {
+                if (coursesAreEquals()) {
                     Toast.makeText(context, "აირჩიეთ ვალიდური ანგარიში", Toast.LENGTH_SHORT).show()
+                } else if (binding.etAmountTo.text == "0.0") {
+                    Toast.makeText(context,
+                        "სერვისი დროებით არ არის ხელმისაწვდომი",
+                        Toast.LENGTH_SHORT).show()
+                    clearFields()
+
+                } else if (binding.etAmountFrom.toString()
+                        .toFloat() > binding.tvAmountFrom.text.toString().toFloat()
+                ) {
+                    Toast.makeText(context, "შეიყვანეთ ვალიდური რიცხვი", Toast.LENGTH_SHORT).show()
                 } else if (checkText(binding.etAmountFrom.text.toString()) && checkFloat(binding.etAmountFrom.text.toString())) {
                     Toast.makeText(context, "ოპერაცია წარმატებით შესრულდა", Toast.LENGTH_SHORT)
                         .show()
@@ -68,16 +83,13 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
                         myTo = binding.etAmountTo.text.toString().toFloat(),
                         olfFrom = binding.tvAmountFrom.text.toString().toFloat(),
                         oldTo = binding.tvAmountTo.text.toString().toFloat())
-
-//                    showFromWallet(readID(Constants.KEY_FROM))
-//                    showToWallet(readID(Constants.KEY_TO))
-
-//                    updateBalance()
+                        .also { clearFields() }
 
                 } else {
                     Toast.makeText(context,
                         "შეიყვანეთ რიცხვი 1.00 ფორმატში",
                         Toast.LENGTH_SHORT).show()
+
                 }
             } catch (e: Exception) {
                 Toast.makeText(context,
@@ -111,31 +123,9 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
         return id
     }
 
-    private fun updateBalance() {
-        binding.apply {
-            tvAmountFrom.text = updateFields(readID(Constants.KEY_FROM)).toString()
-            tvAmountTo.text = updateFields(readID(Constants.KEY_TO)).toString()
-            etAmountFrom.text?.clear()
-        }
-    }
-
-    private fun updateFields(walletID: Int): Float {
-
-        var list = mutableListOf<WalletUI>()
-        var updatedBalance = 0F
-
-        firebaseDatabase.getReference("wallets").get().addOnSuccessListener {
-            it.children.forEach {
-                val item = it.getValue(WalletUI::class.java)
-                item?.let { it1 -> list.add(it1) }
-            }
-            updatedBalance = list.find {
-                it.id == walletID
-            }!!.balance!!
-
-        }.addOnFailureListener {
-        }
-        return updatedBalance
+    private fun clearFields() {
+        binding.etAmountFrom.text?.clear()
+        binding.etAmountTo.text = ""
     }
 
 
@@ -160,6 +150,7 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
                     it
                 }
             }
+            binding.tvAmountFrom.text = newBalanceFrom.toString()
 
             val updatedList2 = updatedList.map {
                 if (it.id == walletIdTo) {
@@ -168,6 +159,7 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
                     it
                 }
             }
+            binding.tvAmountTo.text = newBalanceTo.toString()
 
             firebaseDatabase.getReference("wallets").removeValue().addOnCompleteListener {
                 firebaseDatabase.getReference("wallets").setValue(updatedList2)
@@ -177,7 +169,7 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
         }
     }
 
-    private fun checkWalletsCourses() =
+    private fun coursesAreEquals() =
         binding.tvCurrencyFrom.text.toString() == binding.tvCurrencyTo.text.toString()
 
     private fun checkFloat(str: String) =
@@ -282,45 +274,34 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
         }
     }
 
-//    private fun setSymbol(course: String): String {
-//
-//        return when (course) {
-//            CourseSymbols.GEL.name -> CourseSymbols.GEL.symbol
-//            CourseSymbols.USD.name -> CourseSymbols.USD.symbol
-//            CourseSymbols.EUR.name -> CourseSymbols.EUR.symbol
-//            else -> CourseSymbols.RUB.symbol
-//        }
-//    }
-
-
     private fun showCourses() {
         when {
             binding.tvCurrencyFrom.text == CourseSymbols.GEL.symbol
                     && binding.tvCurrencyTo.text == CourseSymbols.USD.symbol -> {
-                courseFromTo("GEL", "USD")
+                courseFromTo(CourseSymbols.GEL.name, CourseSymbols.USD.name)
             }
             binding.tvCurrencyFrom.text == CourseSymbols.USD.symbol
                     && binding.tvCurrencyTo.text == CourseSymbols.GEL.symbol -> {
-                courseFromTo("USD", "GEL")
+                courseFromTo(CourseSymbols.USD.name, CourseSymbols.GEL.name)
             }
             binding.tvCurrencyFrom.text == CourseSymbols.GEL.symbol
                     && binding.tvCurrencyTo.text == CourseSymbols.EUR.symbol -> {
-                courseFromTo("GEL", "EUR")
+                courseFromTo(CourseSymbols.GEL.name, CourseSymbols.EUR.name)
             }
             binding.tvCurrencyFrom.text == CourseSymbols.GEL.symbol
                     && binding.tvCurrencyTo.text == CourseSymbols.RUB.symbol -> {
-                courseFromTo("GEL", "RUB")
+                courseFromTo(CourseSymbols.GEL.name, CourseSymbols.RUB.name)
             }
             else -> {
-                courseFromTo("GEL", "GEL")
+                courseFromTo(CourseSymbols.GEL.name, CourseSymbols.GEL.name)
             }
         }
         getCourses()
     }
 
-    private fun convertGELtoUSD(amount: Float? = 0.00F) {
-        binding.etAmountTo.text =
-            (amount?.times(binding.tvAmountToNormal.text.toString().toFloat())).toString()
+
+    private fun convertToAnotherCourse(amount: Float? = 0.0F, rate: Float): Float? {
+        return amount?.times(rate)
     }
 
     private fun getCourses() {
@@ -328,7 +309,7 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
             viewModel.courseFlow.collectLatest {
                 binding.apply {
                     tvAmountToNormal.text = (it.data!!.rate ?: "0").toString()
-                    tvAmountToOwn.text = (it.data!!.rate ?: "0").toString()
+                    tvAmountToOwn.text = (it.data.rate ?: "0").toString()
                     tvOne.visibility = View.VISIBLE
                     tvOne2.visibility = View.VISIBLE
                     tvEquals.visibility = View.VISIBLE

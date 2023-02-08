@@ -34,7 +34,7 @@ class WalletsFragment : BaseFragment<FragmentWalletsBinding>(FragmentWalletsBind
 
         binding.apply {
             btnBack.setOnClickListener {
-                findNavController().navigate(WalletsFragmentDirections.actionWalletsFragmentToConvertFragment())
+                findNavController().navigate(WalletsFragmentDirections.actionWalletsFragmentToConvertFragment(type = args.type))
             }
             binding.btnContinue.setOnClickListener {
 

@@ -382,6 +382,7 @@
                 android:layout_weight="0.9"
                 android:textSize="16sp"
                 android:hint="0.00"
+                android:textColor="@color/black"
                 android:padding="10dp" />
 
             <androidx.appcompat.widget.AppCompatTextView
