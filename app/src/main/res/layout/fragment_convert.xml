@@ -130,7 +130,7 @@
             android:layout_height="match_parent"
             android:layout_weight="0.7"
             android:gravity="end|center_vertical"
-            android:text="23"
+            android:text="0"
             android:textColor="@color/black"
             android:textSize="14sp" />
 
@@ -140,7 +140,7 @@
             android:layout_height="match_parent"
             android:layout_weight="0.1"
             android:gravity="start|center_vertical"
-            android:text="₾"
+            android:text=""
             android:paddingStart="5dp"
             android:textColor="@color/black"
             android:textSize="14sp" />
@@ -273,7 +273,7 @@
             android:layout_height="match_parent"
             android:layout_weight="0.7"
             android:gravity="end|center_vertical"
-            android:text="23"
+            android:text="0"
             android:textColor="@color/black"
             android:textSize="14sp" />
 
@@ -283,7 +283,7 @@
             android:layout_height="match_parent"
             android:layout_weight="0.1"
             android:gravity="start|center_vertical"
-            android:text="₽"
+            android:text=""
             android:paddingStart="5dp"
             android:textColor="@color/black"
             android:textSize="14sp" />
@@ -430,9 +430,11 @@
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_one"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
+                    android:visibility="invisible"
                     android:gravity="end"
                     android:paddingEnd="5dp"
                     android:text="1"
@@ -444,12 +446,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.1"
                     android:gravity="start"
-                    android:text="₾" />
+                    android:text="" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.1"
+                    android:id="@+id/tv_equals"
+                    android:visibility="invisible"
                     android:gravity="center"
                     android:text="=" />
 
@@ -469,7 +473,7 @@
                     android:layout_weight="0.1"
                     android:gravity="start"
                     android:paddingStart="5dp"
-                    android:text="$" />
+                    android:text="" />
 
             </LinearLayout>
 
@@ -496,9 +500,11 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
+                    android:id="@+id/tv_one2"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.8"
                     android:gravity="end"
+                    android:visibility="invisible"
                     android:paddingEnd="5dp"
                     android:text="1"
                     android:textStyle="bold" />
@@ -509,12 +515,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.1"
                     android:gravity="start"
-                    android:text="₾" />
+                    android:text="" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.1"
+                    android:id="@+id/tv_equals2"
+                    android:visibility="invisible"
                     android:gravity="center"
                     android:text="=" />
 
@@ -534,7 +542,7 @@
                     android:layout_weight="0.1"
                     android:gravity="start"
                     android:paddingStart="5dp"
-                    android:text="$" />
+                    android:text="" />
 
             </LinearLayout>
 

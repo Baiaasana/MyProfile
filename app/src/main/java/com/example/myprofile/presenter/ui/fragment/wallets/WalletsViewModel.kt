@@ -2,6 +2,7 @@ package com.example.myprofile.presenter.ui.fragment.wallets
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myprofile.common.DataStore
 import com.example.myprofile.common.Resource
 import com.example.myprofile.domain.use_case.GetWalletsUsesCase
 import com.example.myprofile.domain.use_case.WalletsUseCase
@@ -21,6 +22,11 @@ class WalletsViewModel @Inject constructor(
 
     private val _walletsFlow = MutableStateFlow(WalletsViewState())
     val walletsFlow = _walletsFlow.asStateFlow()
+
+    suspend fun save(key: String, value: Int) {
+        DataStore.save(key, value)
+    }
+
 
 //    fun getWallets(): List<WalletUI> {
 //        return walletsUsesCase.showData()

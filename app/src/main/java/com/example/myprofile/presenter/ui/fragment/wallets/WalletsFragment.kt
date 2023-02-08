@@ -1,10 +1,15 @@
 package com.example.myprofile.presenter.ui.fragment.wallets
 
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myprofile.common.BaseFragment
+import com.example.myprofile.common.Constants
+import com.example.myprofile.common.DataStore
 import com.example.myprofile.databinding.FragmentWalletsBinding
 import com.example.myprofile.presenter.adapter.WalletAdapter
 import com.example.myprofile.presenter.model.WalletUI
@@ -13,6 +18,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -20,10 +26,7 @@ class WalletsFragment : BaseFragment<FragmentWalletsBinding>(FragmentWalletsBind
 
     private val viewModel: WalletsViewModel by viewModels()
     private val walletAdapter: WalletAdapter = WalletAdapter()
-
     private val args: WalletsFragmentArgs by navArgs()
-
-    var id : Int? = 1
 
     @Inject lateinit var reference: FirebaseDatabase
 
@@ -36,18 +39,33 @@ class WalletsFragment : BaseFragment<FragmentWalletsBinding>(FragmentWalletsBind
             binding.btnContinue.setOnClickListener {
 
                 if(args.type == "from"){
-                    findNavController().navigate(WalletsFragmentDirections.actionWalletsFragmentToConvertFragment(type = args.type, fromID = id!!, toID = args.toID))
+                    findNavController().navigate(WalletsFragmentDirections.actionWalletsFragmentToConvertFragment(type = args.type))
                 }
                 if(args.type == "to"){
-                    findNavController().navigate(WalletsFragmentDirections.actionWalletsFragmentToConvertFragment(type = args.type, toID = id!!, fromID = args.fromID))
+                    findNavController().navigate(WalletsFragmentDirections.actionWalletsFragmentToConvertFragment(type = args.type))
                 }
             }
         }
 
         walletAdapter.onWalletClickListener = { wallet ->
-            id = wallet.id
+
+            if(args.type == "from"){
+                saveID(Constants.KEY_FROM, wallet.id!!.toInt())
+            }
+            if(args.type == "to"){
+                saveID(Constants.KEY_TO, wallet.id!!.toInt())
+            }
         }
     }
+
+    private fun saveID(key: String, value: Int) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.save(key, value)
+            }
+        }
+    }
+
 
     override fun init() {
         initRecycler()

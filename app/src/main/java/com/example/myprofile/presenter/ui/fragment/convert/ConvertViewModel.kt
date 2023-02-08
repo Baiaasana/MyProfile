@@ -2,12 +2,12 @@ package com.example.myprofile.presenter.ui.fragment.convert
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myprofile.common.DataStore
 import com.example.myprofile.common.Resource
 import com.example.myprofile.domain.use_case.GetCourseUsesCase
 import com.example.myprofile.domain.use_case.WalletsUseCase
 import com.example.myprofile.domain.use_case.GetWalletsUsesCase
 import com.example.myprofile.utility.viewStates.CourseViewState
-import com.example.myprofile.utility.viewStates.WalletsViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -50,10 +50,8 @@ class ConvertViewModel @Inject constructor(
         }
     }
 
-    private val _walletsFlow = MutableStateFlow(WalletsViewState())
-    val walletsFlow = _walletsFlow.asStateFlow()
 
-    suspend fun getWallets() {
+    suspend fun uploadWallets() {
         viewModelScope.launch {
             val data = getWalletsUsesCase.invoke()
             data.collect {
@@ -62,27 +60,25 @@ class ConvertViewModel @Inject constructor(
                         val listOfWalletsUI = it.data!!.map {
                             it.toPresenter()
                         }.toMutableList()
-                        _walletsFlow.value =
-                            _walletsFlow.value.copy(isLoading = false, data = listOfWalletsUI)
-
                         walletsUseCase.uploadData(listOfWalletsUI)
-
-
                     }
                     Resource.Status.ERROR -> {
-                        _walletsFlow.value = _walletsFlow.value.copy(isLoading = false,
-                            errorMessage = it.message.toString())
+
                     }
                     Resource.Status.LOADING -> {
-                        _walletsFlow.value =
-                            _walletsFlow.value.copy(isLoading = true, data = emptyList())
+
                     }
                 }
             }
         }
     }
 
-     fun updateData(oldBalance:Float, newBalance: Float){
-        walletsUseCase.updateData(oldBalance = oldBalance, newBalance = newBalance)
+     fun updateData(walletID:Float, newBalance: Float){
+        walletsUseCase.updateData(oldBalance = walletID, newBalance = newBalance)
     }
+
+    suspend fun read(key: String) : String {
+        return DataStore.read(key)!!
+    }
+
 }

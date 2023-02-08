@@ -7,4 +7,10 @@ object Constants {
     const val TRANSACTION_DETAIL_END_POINT = "details"
     const val WALLETS_END_POINT = "wallets"
     const val COURSES_END_POINT = "your/endpoint/path"
+
+    const val KEY = "key"
+
+    const val KEY_FROM = "from"
+    const val KEY_TO = "to"
+
 }

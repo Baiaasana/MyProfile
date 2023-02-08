@@ -1,5 +1,7 @@
 package com.example.myprofile.presenter.ui.fragment.convert
 
+import android.util.Log.d
+import android.view.View
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
@@ -7,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.myprofile.common.BaseFragment
+import com.example.myprofile.common.Constants
 import com.example.myprofile.common.CourseSymbols
 import com.example.myprofile.databinding.FragmentConvertBinding
 import com.example.myprofile.presenter.model.WalletUI
@@ -26,19 +29,17 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
     private val args: ConvertFragmentArgs by navArgs()
 
     @Inject
-    lateinit var database: FirebaseDatabase
+    lateinit var firebaseDatabase: FirebaseDatabase
 
     override fun listeners() {
         binding.imChooseTo.setOnClickListener {
             findNavController().navigate(ConvertFragmentDirections.actionConvertFragmentToWalletsFragment(
-                fromID = args.fromID,
                 type = "to",
             ))
         }
 
         binding.ivChooseFrom.setOnClickListener {
             findNavController().navigate(ConvertFragmentDirections.actionConvertFragmentToWalletsFragment(
-                toID = args.toID,
                 type = "from",
             ))
         }
@@ -50,7 +51,6 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
                 } else {
                     convertGELtoUSD(0.00F)
                 }
-
             } catch (e: NumberFormatException) {
                 Toast.makeText(context, "შეიყვანეთ რიცხვი", Toast.LENGTH_SHORT).show()
             }
@@ -60,17 +60,19 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
             try {
                 if (checkWalletsCourses()) {
                     Toast.makeText(context, "აირჩიეთ ვალიდური ანგარიში", Toast.LENGTH_SHORT).show()
-                } else if (checkText(binding.etAmountFrom.text.toString()) && checkFloat(binding.etAmountFrom.text.toString())) {
+                }else if (checkText(binding.etAmountFrom.text.toString()) && checkFloat(binding.etAmountFrom.text.toString())) {
                     Toast.makeText(context, "ოპერაცია წარმატებით შესრულდა", Toast.LENGTH_SHORT)
                         .show()
 
-                    updateBalance(oldBalance = binding.tvAmountFrom.text.toString().toFloat(),
+                    updateData(walletID = readID(Constants.KEY_FROM),
                         newBalance = binding.tvAmountFrom.text.toString().toFloat()
                             .minus(binding.etAmountFrom.text.toString().toFloat()))
 
-                    updateBalance(oldBalance = binding.tvAmountTo.text.toString().toFloat(),
-                        newBalance = binding.tvAccountTo.text.toString().toFloat()
-                            .minus(binding.etAmountTo.text.toString().toFloat()))
+                    updateData(walletID = readID(Constants.KEY_TO),
+                        newBalance = binding.tvAmountTo.text.toString().toFloat()
+                            .plus(binding.etAmountTo.text.toString().toFloat()))
+
+                    updateBalance()
 
                 } else {
                     Toast.makeText(context,
@@ -78,7 +80,6 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
                         Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
-
                 Toast.makeText(context,
                     "შეიყვანეთ რიცხვი 1.00 ფორმატში",
                     Toast.LENGTH_SHORT).show()
@@ -86,10 +87,64 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
         }
     }
 
-    private fun updateBalance(oldBalance: Float, newBalance: Float) {
-        viewModel.updateData(oldBalance = oldBalance, newBalance = newBalance)
+    private fun readID(key: String): Int {
+        var id: Int = 1
+        viewLifecycleOwner.lifecycleScope.launch {
+            id = viewModel.read(key).toInt()
+        }
+        return id
     }
 
+    private fun updateBalance(){
+        binding.apply {
+            tvAmountFrom.text = updateFields(readID(Constants.KEY_FROM)).toString()
+            tvAmountTo.text = updateFields(readID(Constants.KEY_TO)).toString()
+            etAmountFrom.text?.clear()
+        }
+    }
+
+    private fun updateFields(walletID: Int) : Float {
+
+        var list = mutableListOf<WalletUI>()
+        var updatedBalance = 0F
+
+        firebaseDatabase.getReference("wallets").get().addOnSuccessListener {
+            it.children.forEach {
+                val item = it.getValue(WalletUI::class.java)
+                item?.let { it1 -> list.add(it1) }
+            }
+            updatedBalance = list.find {
+                it.id == walletID
+            }!!.balance!!
+
+        }.addOnFailureListener {
+        }
+        return updatedBalance
+    }
+
+    private fun updateData(walletID: Int, newBalance: Float) {
+
+        var list = mutableListOf<WalletUI>()
+
+        firebaseDatabase.getReference("wallets").get().addOnSuccessListener {
+            it.children.forEach {
+                val item = it.getValue(WalletUI::class.java)
+                item?.let { it1 -> list.add(it1) }
+            }
+
+            val updatedList = list.map {
+                if (it.id == walletID) {
+                    it.copy(balance = newBalance)
+                } else {
+                    it
+                }
+            }
+            firebaseDatabase.getReference("wallets").removeValue().addOnSuccessListener {
+                firebaseDatabase.getReference("wallets").setValue(updatedList)
+            }
+        }.addOnFailureListener {
+        }
+    }
 
     private fun checkWalletsCourses() =
         binding.tvCurrencyFrom.text.toString() == binding.tvCurrencyTo.text.toString()
@@ -102,20 +157,23 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
     override fun init() {
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getWallets()
+            viewModel.uploadWallets()
         }
 
-        if (args.type == "from") {
-            showFromWallet(args.fromID)
-            showToWallet(args.toID)
-        }
-        if (args.type == "to") {
-            showFromWallet(args.fromID)
-            showToWallet(args.toID)
+        args.type.let {
+            if (args.type == "from") {
+                showFromWallet(readID(Constants.KEY_FROM))
+                showToWallet(readID(Constants.KEY_TO))
+            }
+            if (args.type == "to") {
+                showFromWallet(readID(Constants.KEY_FROM))
+                showToWallet(readID(Constants.KEY_TO))
+            }
         }
 
-        showSymbols()
-        showCourses()
+//        showSymbols()
+//        showCourses()
+
     }
 
     private fun showSymbols() {
@@ -131,42 +189,46 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
         }
     }
 
-    private fun showFromWallet(fromID: Int) {
+    private fun showFromWallet(fromID: Int? = 1) {
 
         var list = mutableListOf<WalletUI>()
-        database.getReference("wallets")
+        firebaseDatabase.getReference("wallets")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach {
                         val item = it.getValue(WalletUI::class.java) ?: return
                         list.add(item)
                     }
-                    val fromItem = list.find { it.id.toString() == fromID.toString() }!!
-                    binding.apply {
+                    val fromItem = list.find { it.id == fromID }!!
+                    try {
+                        binding.apply {
 
-                        tvCurrencyFrom.text = setSymbol(fromItem.currency.toString())
-                        val toSymbol = tvCurrencyFrom.text.toString()
-                        tveCurrencyFrom.text = toSymbol
-                        tvCurrencyFromNormal.text = toSymbol
-                        tvCurrencyFromOwn.text = toSymbol
-                        tvTitleFrom.text = fromItem.title.toString()
-                        tvAccountFrom.text = fromItem.account_number.toString()
-                            .plus("(${fromItem.currency.toString()})")
-                        tvAmountFrom.text = fromItem.balance.toString()
-                        showCourses()
+                            tvCurrencyFrom.text = setSymbol(fromItem.currency.toString())
+                            val toSymbol = tvCurrencyFrom.text.toString()
+                            tveCurrencyFrom.text = toSymbol
+                            tvCurrencyFromNormal.text = toSymbol
+                            tvCurrencyFromOwn.text = toSymbol
+                            tvTitleFrom.text = fromItem.title.toString()
+                            tvAccountFrom.text = fromItem.account_number.toString()
+                                .plus("(${fromItem.currency.toString()})")
+                            tvAmountFrom.text = fromItem.balance.toString()
+                            showCourses()
+                            showSymbols()
+                        }
+                    } catch (e: Exception) {
+                        d("log", "log E - ".plus(e.message.toString()))
                     }
                 }
-
                 override fun onCancelled(error: DatabaseError) {
                 }
             })
     }
 
-    private fun showToWallet(toID: Int) {
+    private fun showToWallet(toID: Int? = 1) {
 
         var list = mutableListOf<WalletUI>()
 
-        database.getReference("wallets")
+        firebaseDatabase.getReference("wallets")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     snapshot.children.forEach {
@@ -174,24 +236,30 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
                         list.add(item)
                     }
                     val toItem = list.find { it.id.toString() == toID.toString() }!!
-                    binding.apply {
 
-                        tvCurrencyTo.text = setSymbol(toItem.currency.toString())
-                        val toSymbol = tvCurrencyTo.text.toString()
-                        tveCurrencyTo.text = toSymbol
-                        tvCurrencyToNormal.text = toSymbol
-                        tvCurrencyToOwn.text = toSymbol
-                        tvTitleTo.text = toItem.title.toString()
-                        tvAccountTo.text = toItem.account_number.toString()
-                            .plus("(${toItem.currency.toString()})")
-                        tvAmountTo.text = toItem.balance.toString()
-                        showCourses()
+                    try {
+                        binding.apply {
+                            tvCurrencyTo.text = setSymbol(toItem.currency.toString())
+                            val toSymbol = tvCurrencyTo.text.toString()
+                            tveCurrencyTo.text = toSymbol
+                            tvCurrencyToNormal.text = toSymbol
+                            tvCurrencyToOwn.text = toSymbol
+                            tvTitleTo.text = toItem.title.toString()
+                            tvAccountTo.text = toItem.account_number.toString()
+                                .plus("(${toItem.currency.toString()})")
+                            tvAmountTo.text = toItem.balance.toString()
+                            showCourses()
+                            showSymbols()
+                        }
+                    } catch (e: Exception) {
+                        d("log", "log E - ".plus(e.message.toString()))
                     }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
                 }
             })
+
     }
 
     private fun setSymbol(course: String): String {
@@ -238,8 +306,14 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
     private fun getCourses() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.courseFlow.collectLatest {
-                binding.tvAmountToNormal.text = it.data!!.rate.toString()
-                binding.tvAmountToOwn.text = it.data.rate.toString()
+                binding.apply {
+                    tvAmountToNormal.text = (it.data!!.rate ?: "0").toString()
+                    tvAmountToOwn.text = (it.data!!.rate ?: "0").toString()
+                    tvOne.visibility = View.VISIBLE
+                    tvOne2.visibility = View.VISIBLE
+                    tvEquals.visibility = View.VISIBLE
+                    tvEquals2.visibility = View.VISIBLE
+                }
             }
         }
     }
