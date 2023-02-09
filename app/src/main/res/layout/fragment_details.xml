@@ -29,6 +29,7 @@
                 android:padding="14dp"
                 android:scaleX="1.0"
                 android:scaleY="1.0"
+                android:backgroundTint="@color/blue"
                 android:src="@drawable/ic_arrow_left" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -37,9 +38,9 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:gravity="center"
-                android:paddingStart="10dp"
-                android:text="ტრანზაქციის დეტელები"
-                android:textColor="@color/black"
+                android:paddingHorizontal="10dp"
+                android:text="@string/details"
+                android:textColor="@color/blue"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -49,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginVertical="5dp"
-            android:background="@android:color/darker_gray"
+            android:background="@color/line_grey"
             app:layout_constraintEnd_toEndOf="@id/ll_details"
             app:layout_constraintStart_toStartOf="@id/ll_details"
             app:layout_constraintTop_toBottomOf="@id/ll_details" />
@@ -86,8 +87,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="10dp"
-                    android:text="თარიღი"
-                    android:textColor="@android:color/darker_gray"
+                    android:textColor="@color/grey"
                     android:textSize="12sp" />
 
                 <LinearLayout
@@ -128,8 +128,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="16dp"
                             android:layout_weight="2"
+                            android:fontFamily="@font/fira_go_book"
                             android:gravity="center_vertical"
-                            android:text="ტრანზაქცია"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
@@ -140,10 +140,10 @@
                             android:layout_marginHorizontal="16dp"
                             android:layout_weight="2"
                             android:alpha="0.5"
+                            android:fontFamily="@font/fira_go_book"
                             android:ellipsize="end"
                             android:gravity="center_vertical"
                             android:maxLines="1"
-                            android:text="თანხა"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -163,10 +163,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="bottom"
-                        android:text="+23.25"
+                        android:fontFamily="@font/fira_go_bold"
                         android:textColor="@color/black"
-                        android:textSize="32sp"
-                        android:textStyle="bold" />
+                        android:textSize="32sp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_currency"
@@ -174,7 +173,7 @@
                         android:layout_height="match_parent"
                         android:gravity="bottom"
                         android:paddingBottom="6dp"
-                        android:text="$"
+                        android:fontFamily="@font/fira_go_book"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -184,10 +183,10 @@
 
             <View
                 android:id="@+id/view2"
+                android:background="@color/line_grey"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginVertical="10dp"
-                android:background="@android:color/darker_gray"
                 app:layout_constraintEnd_toEndOf="@id/ll_transaction"
                 app:layout_constraintStart_toStartOf="@+id/ll_transaction"
                 app:layout_constraintTop_toBottomOf="@+id/ll_transaction" />
@@ -207,10 +206,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="4dp"
-                    android:text="გამგზავნი"
+                    android:text="@string/sender"
+                    android:fontFamily="@font/fira_go_bold"
                     android:textColor="@color/black"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    android:textSize="17sp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -223,7 +222,9 @@
                         android:layout_height="wrap_content"
                         android:gravity="start"
                         android:maxLines="1"
-                        android:text="გამგზავნი: "
+                        android:textColor="@color/grey"
+                        android:fontFamily="@font/fira_go_book"
+                        android:text="@string/sender"
                         android:textSize="12sp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -233,10 +234,9 @@
                         android:layout_gravity="end"
                         android:gravity="end"
                         android:maxLines="1"
-                        android:text="კომპანია"
-                        android:textColor="@color/black"
                         android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/blue"
+                        android:fontFamily="@font/fira_go_medium" />
 
                 </LinearLayout>
 
@@ -251,7 +251,9 @@
                         android:layout_height="wrap_content"
                         android:gravity="start"
                         android:maxLines="1"
-                        android:text="ანგარიშის ნომერი: "
+                        android:textColor="@color/grey"
+                        android:fontFamily="@font/fira_go_book"
+                        android:text="@string/account"
                         android:textSize="12sp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -261,10 +263,9 @@
                         android:layout_gravity="end"
                         android:gravity="end"
                         android:maxLines="1"
-                        android:text="GE2655454454545"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/blue"
+                        android:fontFamily="@font/fira_go_medium"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -279,7 +280,9 @@
                         android:layout_height="wrap_content"
                         android:gravity="start"
                         android:maxLines="1"
-                        android:text="ბანკის სახელი: "
+                        android:textColor="@color/grey"
+                        android:fontFamily="@font/fira_go_book"
+                        android:text="@string/bank_name"
                         android:textSize="12sp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -289,10 +292,9 @@
                         android:layout_gravity="end"
                         android:gravity="end"
                         android:maxLines="1"
-                        android:text="თბს"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/blue"
+                        android:fontFamily="@font/fira_go_medium"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -307,7 +309,9 @@
                         android:layout_height="wrap_content"
                         android:gravity="start"
                         android:maxLines="1"
-                        android:text="ბანკის კოდი: "
+                        android:textColor="@color/grey"
+                        android:fontFamily="@font/fira_go_book"
+                        android:text="@string/bank_code"
                         android:textSize="12sp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -317,10 +321,9 @@
                         android:layout_gravity="end"
                         android:gravity="end"
                         android:maxLines="1"
-                        android:text="TBC"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/blue"
+                        android:fontFamily="@font/fira_go_medium"
+                        android:textSize="12sp"/>
 
                 </LinearLayout>
 
@@ -330,8 +333,8 @@
                 android:id="@+id/view3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:background="@color/line_grey"
                 android:layout_marginVertical="10dp"
-                android:background="@android:color/darker_gray"
                 app:layout_constraintEnd_toEndOf="@id/ll_sender"
                 app:layout_constraintStart_toStartOf="@+id/ll_sender"
                 app:layout_constraintTop_toBottomOf="@+id/ll_sender" />
@@ -351,10 +354,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="4dp"
-                    android:text="მიმღები"
-                    android:textColor="@color/black"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    android:text="@string/receiver"
+                    android:textColor="@color/blue"
+                    android:fontFamily="@font/fira_go_bold"
+                    android:textSize="17sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -367,7 +370,9 @@
                         android:layout_height="wrap_content"
                         android:gravity="start"
                         android:maxLines="1"
-                        android:text="მიმღები: "
+                        android:textColor="@color/grey"
+                        android:fontFamily="@font/fira_go_book"
+                        android:text="@string/receiver"
                         android:textSize="12sp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -377,10 +382,9 @@
                         android:layout_gravity="end"
                         android:gravity="end"
                         android:maxLines="1"
-                        android:text="კომპანია"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/blue"
+                        android:fontFamily="@font/fira_go_medium"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -395,7 +399,9 @@
                         android:layout_height="wrap_content"
                         android:gravity="start"
                         android:maxLines="1"
-                        android:text="ანგარიშის ნომერი: "
+                        android:textColor="@color/grey"
+                        android:fontFamily="@font/fira_go_book"
+                        android:text="@string/account"
                         android:textSize="12sp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -405,10 +411,9 @@
                         android:layout_gravity="end"
                         android:gravity="end"
                         android:maxLines="1"
-                        android:text="GE2655454454545"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/blue"
+                        android:fontFamily="@font/fira_go_medium"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -423,7 +428,9 @@
                         android:layout_height="wrap_content"
                         android:gravity="start"
                         android:maxLines="1"
-                        android:text="ბანკის სახელი: "
+                        android:textColor="@color/grey"
+                        android:fontFamily="@font/fira_go_book"
+                        android:text="@string/bank_name"
                         android:textSize="12sp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -433,10 +440,8 @@
                         android:layout_gravity="end"
                         android:gravity="end"
                         android:maxLines="1"
-                        android:text="თბს"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/blue"
+                        android:fontFamily="@font/fira_go_medium"                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -451,7 +456,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="start"
                         android:maxLines="1"
-                        android:text="ბანკის კოდი: "
+                        android:text="@string/bank_code"
                         android:textSize="12sp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -461,10 +466,9 @@
                         android:layout_gravity="end"
                         android:gravity="end"
                         android:maxLines="1"
-                        android:text="TBC"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/blue"
+                        android:fontFamily="@font/fira_go_medium"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -474,8 +478,8 @@
                 android:id="@+id/view4"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:background="@color/line_grey"
                 android:layout_marginVertical="10dp"
-                android:background="@android:color/darker_gray"
                 app:layout_constraintEnd_toEndOf="@id/ll_receiver"
                 app:layout_constraintStart_toStartOf="@+id/ll_receiver"
                 app:layout_constraintTop_toBottomOf="@+id/ll_receiver" />
@@ -502,7 +506,9 @@
                         android:layout_height="wrap_content"
                         android:gravity="start"
                         android:maxLines="1"
-                        android:text="დოკუმენტის ნომერი # "
+                        android:textColor="@color/grey"
+                        android:fontFamily="@font/fira_go_book"
+                        android:text="@string/doc_number"
                         android:textSize="12sp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -512,8 +518,8 @@
                         android:layout_gravity="end"
                         android:gravity="end"
                         android:maxLines="1"
-                        android:text="3"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey"
+                        android:fontFamily="@font/fira_go_book"
                         android:textSize="12sp"
                         android:textStyle="bold" />
 
@@ -530,7 +536,9 @@
                         android:layout_height="wrap_content"
                         android:gravity="start"
                         android:maxLines="1"
-                        android:text="ოპერაციის კოდი "
+                        android:textColor="@color/grey"
+                        android:fontFamily="@font/fira_go_book"
+                        android:text="@string/operation_code"
                         android:textSize="12sp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -540,10 +548,9 @@
                         android:layout_gravity="end"
                         android:gravity="end"
                         android:maxLines="1"
-                        android:text="4545"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/blue"
+                        android:fontFamily="@font/fira_go_medium"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -558,7 +565,9 @@
                         android:layout_height="wrap_content"
                         android:gravity="start"
                         android:maxLines="1"
-                        android:text="გაყიდვა"
+                        android:text="@string/sell"
+                        android:textColor="@color/grey"
+                        android:fontFamily="@font/fira_go_book"
                         android:textSize="12sp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -568,10 +577,9 @@
                         android:layout_gravity="end"
                         android:gravity="end"
                         android:maxLines="1"
-                        android:text="45$"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/blue"
+                        android:fontFamily="@font/fira_go_medium"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -586,7 +594,9 @@
                         android:layout_height="wrap_content"
                         android:gravity="start"
                         android:maxLines="1"
-                        android:text="ყიდვა"
+                        android:textColor="@color/grey"
+                        android:fontFamily="@font/fira_go_book"
+                        android:text="@string/buy"
                         android:textSize="12sp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -596,10 +606,9 @@
                         android:layout_gravity="end"
                         android:gravity="end"
                         android:maxLines="1"
-                        android:text="456L"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/blue"
+                        android:fontFamily="@font/fira_go_medium"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -614,7 +623,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="start"
                         android:maxLines="1"
-                        android:text="კურსი "
+                        android:text="@string/course"
                         android:textSize="12sp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -624,10 +633,9 @@
                         android:layout_gravity="end"
                         android:gravity="end"
                         android:maxLines="1"
-                        android:text="1$ = 2.6L"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/fira_go_medium"
+                        android:textColor="@color/blue"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 

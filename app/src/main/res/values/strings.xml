@@ -1,4 +1,34 @@
 <resources>
     <string name="app_name">Myprofile</string>
+    <string name="main">მთავარი</string>
+    <string name="search">ძიება</string>
+    <string name="details">ტრანზაქციის დეტელები</string>
+    <string name="date">თარიღი</string>
+    <string name="transaction">ტრანზაქცია</string>
+    <string name="sender">გამგზავნი:</string>
+    <string name="account">ანგარიშის ნომერი:</string>
+    <string name="bank_name">ბანკის სახელი:</string>
+    <string name="bank_code">ბანკის კოდი:</string>
+    <string name="receiver">მიმღები</string>
+    <string name="doc_number">დოკუმენტის ნომერი #</string>
+    <string name="course">კურსი</string>
+    <string name="buy">ყიდვა</string>
+    <string name="sell">გაყიდვა</string>
+    <string name="operation_code">ოპერაციის კოდი</string>
+    <string name="wallet">საფულე</string>
+    <string name="acc_num">ანგარიშის ნომერი</string>
+    <string name="conversation">კონვერტაცია</string>
+    <string name="to_account">ანგარიშზე</string>
+    <string name="from_acc">ანგარიშიდან</string>
+    <string name="buy_amount">ყიდვის თანხა</string>
+    <string name="sell_amount">გაყიდვის თანხა</string>
+    <string name="standart_course">სტანდარტული კურსი:</string>
+    <string name="own_course">შენი კურსი:</string>
+    <string name="equals">=</string>
+    <string name="one">1</string>
+    <string name="continuee">გაგრძელება</string>
+    <string name="zero">0.00</string>
+    <string name="choose_acc">ანგარიშის არჩევა</string>
+    <string name="choose_wallet">საფულეების ანგარიში</string>
     <integer name="config_navAnimTime">150</integer>
 </resources>
