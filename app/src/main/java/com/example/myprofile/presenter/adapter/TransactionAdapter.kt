@@ -4,17 +4,18 @@ import android.view.LayoutInflater
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.paging.Config
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myprofile.common.Constants
+import com.example.myprofile.common.Utility
 import com.example.myprofile.databinding.TransactionItemBinding
 import com.example.myprofile.presenter.model.TransactionsUI
-import java.text.SimpleDateFormat
-import java.util.*
 
 class TransactionAdapter :
     PagingDataAdapter<TransactionsUI.TransactionUI, TransactionAdapter.TransactionViewHolder>(
-        TransactionItemCallback) {
+        TransactionItemCallback), Utility {
 
     var onTransactionClickListener: ((TransactionsUI.TransactionUI) -> Unit?)? = null
 
@@ -29,7 +30,7 @@ class TransactionAdapter :
                     tvAmount.text = item.amunt.toString()
                     tvDate.visibility = VISIBLE
                     tvDate.text =
-                        item.date.let { getData(it!!.toLong(), "yyyy.MM.dd HH:mm").toString() }
+                        item.date.let { getData(it!!.toLong(), Constants.DATA_FORMAT).toString() }
                     tvCurrency.text = item.currency.toString()
                     root.setOnClickListener {
                         onTransactionClickListener?.invoke(item)
@@ -54,7 +55,7 @@ class TransactionAdapter :
                         tvTitle.text = item.title.toString()
                         tvSubtitle.text = item.subtitle.toString()
                         tvDate.text =
-                            item.date.let { getData(it!!.toLong(), "yyyy.MM.dd HH:mm").toString() }
+                            item.date.let { getData(it!!.toLong(), Constants.DATA_FORMAT).toString() }
                         tvAmount.text = item.amunt.toString()
                         tvDate.visibility = VISIBLE
                         tvCurrency.text = item.currency.toString()
@@ -67,7 +68,6 @@ class TransactionAdapter :
         }
     }
 
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
@@ -75,13 +75,6 @@ class TransactionAdapter :
         return TransactionViewHolder(TransactionItemBinding.inflate(LayoutInflater.from(parent.context),
             parent,
             false))
-    }
-
-    fun getData(milliSeconds: Long, dateFormat: String?): String? {
-        val formatter = SimpleDateFormat(dateFormat)
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = milliSeconds
-        return formatter.format(calendar.time)
     }
 
     private object TransactionItemCallback :

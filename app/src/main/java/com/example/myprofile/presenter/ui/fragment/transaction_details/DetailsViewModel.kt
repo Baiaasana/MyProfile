@@ -1,10 +1,9 @@
 package com.example.myprofile.presenter.ui.fragment.transaction_details
 
-import android.util.Log.d
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myprofile.common.Resource
-import com.example.myprofile.domain.use_case.DetailedTransactionUsesCase
+import com.example.myprofile.domain.use_case.DetailedTransactionUseCase
 import com.example.myprofile.utility.viewStates.DetailedTransactionViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
-    private val usesCase: DetailedTransactionUsesCase,
+    private val usesCase: DetailedTransactionUseCase,
 ) : ViewModel() {
 
     private val _detailedTransactionFlow =

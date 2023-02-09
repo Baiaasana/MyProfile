@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myprofile.common.Symbols
+import com.example.myprofile.common.Utility
 import com.example.myprofile.databinding.WalletItemBinding
 import com.example.myprofile.presenter.model.WalletUI
 
 class WalletAdapter :
-    ListAdapter<WalletUI, WalletAdapter.WalletViewHolder>(ItemCallback), Symbols {
+    ListAdapter<WalletUI, WalletAdapter.WalletViewHolder>(ItemCallback), Utility {
 
     var onWalletClickListener: ((WalletUI) -> Unit)? = null
 
@@ -24,19 +24,10 @@ class WalletAdapter :
                 tvTitle.text = item.title.toString()
                 tvAccountNumber.text = item.account_number.toString().plus("(${item.currency})")
                 tvAmount.text = item.balance.toString()
-                if (item.is_default == true) {
-                    ivIsDefault.visibility = View.VISIBLE
-                }
-                if (item.is_default == false) {
-                    ivIsDefault.visibility = View.GONE
-                }
                 tvCurrency.text = setSymbol(item.currency.toString())
 
                 itemView.setOnClickListener {
                     onWalletClickListener?.invoke(item)
-                    currentList.forEach {
-                        it.is_default = false
-                    }
                     item.is_default = true
                     ivIsDefault.visibility = View.VISIBLE
                 }

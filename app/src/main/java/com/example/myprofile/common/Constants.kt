@@ -10,7 +10,11 @@ object Constants {
 
     const val KEY = "key"
 
-    const val KEY_FROM = "from"
-    const val KEY_TO = "to"
+    const val FROM = "from"
+    const val TO = "to"
 
+    const val PATH = "wallets"
+    const val DATA_FORMAT = "yyyy.MM.dd"
+    const val DATA_FORMAT_HOURS = "yyyy.MM.dd HH:mm"
+    const val ZERO = "0.0"
 }
