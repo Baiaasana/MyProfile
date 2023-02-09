@@ -44,10 +44,10 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
 
         binding.etAmountFrom.doOnTextChanged { text, start, count, after ->
             try {
-                if (text.toString().toFloat() > binding.tvAmountFrom.text.toString().toFloat()) {
+                if (text.toString().toFloat() > binding.tvAmountFrom.text.toString().toFloat() ){
                     Toast.makeText(context, "შეიყვანეთ ვალიდური რიცხვი", Toast.LENGTH_SHORT).show()
                     binding.btnContinue.isClickable = false
-                } else if (checkText(text.toString())) {
+                }else if (checkText(text.toString())) {
                     binding.etAmountTo.text = convertToAnotherCourse(text.toString().toFloat(),
                         rate = binding.tvAmountToNormal.text.toString().toFloat()).toString()
                 } else {
@@ -63,16 +63,9 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
             try {
                 if (coursesAreEquals()) {
                     Toast.makeText(context, "აირჩიეთ ვალიდური ანგარიში", Toast.LENGTH_SHORT).show()
-                } else if (binding.etAmountTo.text == "0.0") {
-                    Toast.makeText(context,
-                        "სერვისი დროებით არ არის ხელმისაწვდომი",
-                        Toast.LENGTH_SHORT).show()
+                }else if(binding.etAmountTo.text == "0.0"){
+                    Toast.makeText(context, "სერვისი დროებით არ არის ხელმისაწვდომი", Toast.LENGTH_SHORT).show()
                     clearFields()
-
-                } else if (binding.etAmountFrom.toString()
-                        .toFloat() > binding.tvAmountFrom.text.toString().toFloat()
-                ) {
-                    Toast.makeText(context, "შეიყვანეთ ვალიდური რიცხვი", Toast.LENGTH_SHORT).show()
                 } else if (checkText(binding.etAmountFrom.text.toString()) && checkFloat(binding.etAmountFrom.text.toString())) {
                     Toast.makeText(context, "ოპერაცია წარმატებით შესრულდა", Toast.LENGTH_SHORT)
                         .show()
@@ -89,12 +82,14 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
                     Toast.makeText(context,
                         "შეიყვანეთ რიცხვი 1.00 ფორმატში",
                         Toast.LENGTH_SHORT).show()
-
+                    binding.btnContinue.isClickable = false
+                    clearFields()
                 }
             } catch (e: Exception) {
                 Toast.makeText(context,
                     "შეიყვანეთ რიცხვი 1.00 ფორმატში",
                     Toast.LENGTH_SHORT).show()
+                clearFields()
             }
         }
     }
@@ -298,6 +293,7 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
         }
         getCourses()
     }
+
 
 
     private fun convertToAnotherCourse(amount: Float? = 0.0F, rate: Float): Float? {
