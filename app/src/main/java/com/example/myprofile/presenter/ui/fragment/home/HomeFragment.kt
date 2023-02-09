@@ -19,7 +19,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private val transactionAdapter: TransactionAdapter = TransactionAdapter()
 
     override fun listeners() {
-
         transactionAdapter.onTransactionClickListener = {
             navigateToDetails(it)
         }

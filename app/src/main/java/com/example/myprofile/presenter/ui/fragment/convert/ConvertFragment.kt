@@ -1,6 +1,5 @@
 package com.example.myprofile.presenter.ui.fragment.convert
 
-import android.util.Log.d
 import android.view.View
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
@@ -8,70 +7,71 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.myprofile.R
 import com.example.myprofile.common.BaseFragment
 import com.example.myprofile.common.Constants
-import com.example.myprofile.common.CourseSymbols
-import com.example.myprofile.common.Symbols
+import com.example.myprofile.common.Utility
 import com.example.myprofile.databinding.FragmentConvertBinding
-import com.example.myprofile.presenter.model.WalletUI
-import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBinding::inflate), Symbols {
+class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBinding::inflate),
+    Utility {
 
     private val viewModel: ConvertViewModel by viewModels()
     private val args: ConvertFragmentArgs by navArgs()
 
-    @Inject
-    lateinit var firebaseDatabase: FirebaseDatabase
-
     override fun listeners() {
         binding.imChooseTo.setOnClickListener {
             findNavController().navigate(ConvertFragmentDirections.actionConvertFragmentToWalletsFragment(
-                type = "to",
+                type = Constants.TO,
             ))
         }
 
         binding.ivChooseFrom.setOnClickListener {
             findNavController().navigate(ConvertFragmentDirections.actionConvertFragmentToWalletsFragment(
-                type = "from",
+                type = Constants.FROM,
             ))
         }
 
         binding.etAmountFrom.doOnTextChanged { text, start, count, after ->
             try {
                 if (text.toString().toFloat() > binding.tvAmountFrom.text.toString().toFloat() ){
-                    Toast.makeText(context, "შეიყვანეთ ვალიდური რიცხვი", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.enter_valid_number), Toast.LENGTH_SHORT).show()
                     binding.btnContinue.isClickable = false
                 }else if (checkText(text.toString())) {
-                    binding.etAmountTo.text = convertToAnotherCourse(text.toString().toFloat(),
-                        rate = binding.tvAmountToNormal.text.toString().toFloat()).toString()
+                    binding.etAmountTo.text =
+                        viewModel.convertToAnotherCourse(text.toString().toFloat(),
+                            rate = binding.tvAmountToNormal.text.toString().toFloat()).toString()
                 } else {
-                    binding.etAmountTo.text = convertToAnotherCourse(0.00F,
+                    binding.etAmountTo.text = viewModel.convertToAnotherCourse(0.00F,
                         rate = binding.tvAmountToNormal.text.toString().toFloat()).toString()
                 }
             } catch (e: NumberFormatException) {
-                Toast.makeText(context, "შეიყვანეთ რიცხვი", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.enter_digits), Toast.LENGTH_SHORT).show()
             }
         }
 
         binding.btnContinue.setOnClickListener {
             try {
-                if (coursesAreEquals()) {
-                    Toast.makeText(context, "აირჩიეთ ვალიდური ანგარიში", Toast.LENGTH_SHORT).show()
-                }else if(binding.etAmountTo.text == "0.0"){
-                    Toast.makeText(context, "სერვისი დროებით არ არის ხელმისაწვდომი", Toast.LENGTH_SHORT).show()
+                if (coursesAreEquals(binding.tvCurrencyFrom.text.toString(),
+                        binding.tvCurrencyTo.text.toString())
+                ) {
+                    Toast.makeText(context, getString(R.string.choose_valid_wallet), Toast.LENGTH_SHORT).show()
+                } else if (binding.etAmountTo.text == Constants.ZERO) {
+                    Toast.makeText(context,
+                        getString(R.string.service_error),
+                        Toast.LENGTH_SHORT).show()
                     clearFields()
                 } else if (checkText(binding.etAmountFrom.text.toString()) && checkFloat(binding.etAmountFrom.text.toString())) {
-                    Toast.makeText(context, "ოპერაცია წარმატებით შესრულდა", Toast.LENGTH_SHORT)
+                    Toast.makeText(context, getString(R.string.success), Toast.LENGTH_SHORT)
                         .show()
 
-                    updateData(fromID = readID(Constants.KEY_FROM),
-                        toID = readID(Constants.KEY_TO),
+                    updateData(fromID = readID(Constants.FROM),
+                        toID = readID(Constants.TO),
                         myFrom = binding.etAmountFrom.text.toString().toFloat(),
                         myTo = binding.etAmountTo.text.toString().toFloat(),
                         olfFrom = binding.tvAmountFrom.text.toString().toFloat(),
@@ -79,16 +79,13 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
                         .also { clearFields() }
 
                 } else {
-                    Toast.makeText(context,
-                        "შეიყვანეთ რიცხვი 1.00 ფორმატში",
-                        Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.format_error), Toast.LENGTH_SHORT)
+                        .show()
                     binding.btnContinue.isClickable = false
                     clearFields()
                 }
             } catch (e: Exception) {
-                Toast.makeText(context,
-                    "შეიყვანეთ რიცხვი 1.00 ფორმატში",
-                    Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,  getString(R.string.format_error), Toast.LENGTH_SHORT).show()
                 clearFields()
             }
         }
@@ -102,16 +99,16 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
         oldTo: Float,
         myTo: Float,
     ) {
-
-        updateDataInDatabase(
-            walletIdFrom = fromID, walletIdTo = toID,
-            newBalanceFrom = olfFrom.minus(myFrom), newBalanceTo = oldTo.plus(myTo)
-        )
-
+        viewModel.updateDataInDatabase(walletIdFrom = fromID,
+            walletIdTo = toID,
+            newBalanceFrom = olfFrom.minus(myFrom),
+            newBalanceTo = oldTo.plus(myTo))
+        binding.tvAmountFrom.text = olfFrom.minus(myFrom).toString()
+        binding.tvAmountTo.text = oldTo.plus(myTo).toString()
     }
 
     private fun readID(key: String): Int {
-        var id: Int = 1
+        var id = 1
         viewLifecycleOwner.lifecycleScope.launch {
             id = viewModel.read(key).toInt()
         }
@@ -123,55 +120,6 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
         binding.etAmountTo.text = ""
     }
 
-
-    private fun updateDataInDatabase(
-        walletIdFrom: Int,
-        walletIdTo: Int,
-        newBalanceFrom: Float,
-        newBalanceTo: Float,
-    ) {
-
-        var list = mutableListOf<WalletUI>()
-        firebaseDatabase.getReference("wallets").get().addOnSuccessListener {
-            it.children.forEach {
-                val item = it.getValue(WalletUI::class.java)
-                item?.let { it1 -> list.add(it1) }
-            }
-
-            val updatedList = list.map {
-                if (it.id == walletIdFrom) {
-                    it.copy(balance = newBalanceFrom)
-                } else {
-                    it
-                }
-            }
-            binding.tvAmountFrom.text = newBalanceFrom.toString()
-
-            val updatedList2 = updatedList.map {
-                if (it.id == walletIdTo) {
-                    it.copy(balance = newBalanceTo)
-                } else {
-                    it
-                }
-            }
-            binding.tvAmountTo.text = newBalanceTo.toString()
-
-            firebaseDatabase.getReference("wallets").removeValue().addOnCompleteListener {
-                firebaseDatabase.getReference("wallets").setValue(updatedList2)
-            }
-
-        }.addOnFailureListener {
-        }
-    }
-
-    private fun coursesAreEquals() =
-        binding.tvCurrencyFrom.text.toString() == binding.tvCurrencyTo.text.toString()
-
-    private fun checkFloat(str: String) =
-        str[str.length - 3] == '.'
-
-    private fun checkText(text: String) = (text.isNotEmpty() && text.toFloat() > 0)
-
     override fun init() {
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -179,46 +127,23 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
         }
 
         args.type.let {
-            if (args.type == "from") {
-                showFromWallet(readID(Constants.KEY_FROM))
-                showToWallet(readID(Constants.KEY_TO))
+            if (args.type == Constants.FROM) {
+                showFROMINFO(readID(Constants.FROM))
+                showTOINFO(readID(Constants.TO))
             }
-            if (args.type == "to") {
-                showFromWallet(readID(Constants.KEY_FROM))
-                showToWallet(readID(Constants.KEY_TO))
+            if (args.type == Constants.TO) {
+                showFROMINFO(readID(Constants.FROM))
+                showTOINFO(readID(Constants.TO))
             }
-        }
-
-//        showSymbols()
-//        showCourses()
-
-    }
-
-    private fun showSymbols() {
-        binding.apply {
-            val fromSymbol = tvCurrencyFrom.text.toString()
-            tveCurrencyFrom.text = fromSymbol
-            tvCurrencyFromNormal.text = fromSymbol
-            tvCurrencyFromOwn.text = fromSymbol
-            val toSymbol = tvCurrencyTo.text.toString()
-            tveCurrencyTo.text = toSymbol
-            tvCurrencyToNormal.text = toSymbol
-            tvCurrencyToOwn.text = toSymbol
         }
     }
 
-    private fun showFromWallet(fromID: Int) {
-
-        var list = mutableListOf<WalletUI>()
-        firebaseDatabase.getReference("wallets").get().addOnSuccessListener {
-            it.children.forEach {
-                val item = it.getValue(WalletUI::class.java)
-                item?.let { it1 -> list.add(it1) }
-            }
-            val fromItem = list.find { it.id == fromID }!!
+    private fun showFROMINFO(fromID: Int) {
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
+                val resultFrom = async { viewModel.getWalletById(fromID) }
+                val fromItem = resultFrom.await()
                 binding.apply {
-
                     tvCurrencyFrom.text = setSymbol(fromItem.currency.toString())
                     val toSymbol = tvCurrencyFrom.text.toString()
                     tveCurrencyFrom.text = toSymbol
@@ -228,28 +153,21 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
                     tvAccountFrom.text = fromItem.account_number.toString()
                         .plus("(${fromItem.currency.toString()})")
                     tvAmountFrom.text = fromItem.balance.toString()
-                    showCourses()
-                    showSymbols()
+                    viewModel.showCourses(binding.tvCurrencyFrom.text.toString(),
+                        binding.tvCurrencyTo.text.toString())
+                    getCourses()
                 }
             } catch (e: Exception) {
-                d("log", "log E - ".plus(e.message.toString()))
+                Toast.makeText(context, e.message.toString(), Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
-    private fun showToWallet(toID: Int) {
-
-        var list = mutableListOf<WalletUI>()
-
-        firebaseDatabase.getReference("wallets").get().addOnSuccessListener {
-            it.children.forEach {
-                val item = it.getValue(WalletUI::class.java)
-                item?.let { it1 -> list.add(it1) }
-            }
-            val toItem = list.find { it.id.toString() == toID.toString() }!!
-
+    private fun showTOINFO(toID: Int) {
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
+                val resultTo = async { viewModel.getWalletById(toID) }
+                val toItem = resultTo.await()
                 binding.apply {
                     tvCurrencyTo.text = setSymbol(toItem.currency.toString())
                     val toSymbol = tvCurrencyTo.text.toString()
@@ -260,44 +178,14 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
                     tvAccountTo.text = toItem.account_number.toString()
                         .plus("(${toItem.currency.toString()})")
                     tvAmountTo.text = toItem.balance.toString()
-                    showCourses()
-                    showSymbols()
+                    viewModel.showCourses(binding.tvCurrencyFrom.text.toString(),
+                        binding.tvCurrencyTo.text.toString())
+                    getCourses()
                 }
             } catch (e: Exception) {
-                d("log", "log E - ".plus(e.message.toString()))
+                Toast.makeText(context, e.message.toString(), Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    private fun showCourses() {
-        when {
-            binding.tvCurrencyFrom.text == CourseSymbols.GEL.symbol
-                    && binding.tvCurrencyTo.text == CourseSymbols.USD.symbol -> {
-                courseFromTo(CourseSymbols.GEL.name, CourseSymbols.USD.name)
-            }
-            binding.tvCurrencyFrom.text == CourseSymbols.USD.symbol
-                    && binding.tvCurrencyTo.text == CourseSymbols.GEL.symbol -> {
-                courseFromTo(CourseSymbols.USD.name, CourseSymbols.GEL.name)
-            }
-            binding.tvCurrencyFrom.text == CourseSymbols.GEL.symbol
-                    && binding.tvCurrencyTo.text == CourseSymbols.EUR.symbol -> {
-                courseFromTo(CourseSymbols.GEL.name, CourseSymbols.EUR.name)
-            }
-            binding.tvCurrencyFrom.text == CourseSymbols.GEL.symbol
-                    && binding.tvCurrencyTo.text == CourseSymbols.RUB.symbol -> {
-                courseFromTo(CourseSymbols.GEL.name, CourseSymbols.RUB.name)
-            }
-            else -> {
-                courseFromTo(CourseSymbols.GEL.name, CourseSymbols.GEL.name)
-            }
-        }
-        getCourses()
-    }
-
-
-
-    private fun convertToAnotherCourse(amount: Float? = 0.0F, rate: Float): Float? {
-        return amount?.times(rate)
     }
 
     private fun getCourses() {
@@ -315,13 +203,6 @@ class ConvertFragment : BaseFragment<FragmentConvertBinding>(FragmentConvertBind
         }
     }
 
-    private fun courseFromTo(from: String, to: String) {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getCourse(from, to)
-        }
-    }
-
     override fun observers() {
     }
-
 }
