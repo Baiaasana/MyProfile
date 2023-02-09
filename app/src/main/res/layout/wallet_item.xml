@@ -49,8 +49,8 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
-                android:text="საფულე"
-                android:textColor="@color/black"
+                android:textColor="@color/blue"
+                android:fontFamily="@font/fira_go_book"
                 android:textSize="14sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -63,8 +63,8 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:text="ანგარიშის ნომერი"
-                android:textColor="@color/black"
+                android:fontFamily="@font/fira_go_book"
+                android:textColor="@color/bold_grey"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -74,8 +74,8 @@
             android:layout_height="match_parent"
             android:layout_weight="0.7"
             android:gravity="end|center_vertical"
-            android:text="23"
-            android:textColor="@color/black"
+            android:fontFamily="@font/fira_go_medium"
+            android:textColor="@color/blue"
             android:textSize="14sp" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -84,9 +84,9 @@
             android:layout_height="match_parent"
             android:layout_weight="0.1"
             android:gravity="start|center_vertical"
-            android:text="$"
             android:paddingStart="5dp"
-            android:textColor="@color/black"
+            android:fontFamily="@font/fira_go_book"
+            android:textColor="@color/bold_grey"
             android:textSize="14sp" />
 
         <androidx.appcompat.widget.AppCompatImageView

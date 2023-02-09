@@ -10,10 +10,11 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_date"
+        android:fontFamily="@font/fira_go_book"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@color/grey"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:textSize="12sp"/>
@@ -30,7 +31,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:backgroundTint="@android:color/darker_gray"
+            android:backgroundTint="@color/search_back_grey"
             app:cardCornerRadius="10dp">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -53,17 +54,18 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_title"
+                android:fontFamily="@font/fira_go_book"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
-                android:text="ტრანსაქცია"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_subtitle"
+                android:fontFamily="@font/fira_go_book"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
@@ -72,7 +74,6 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:gravity="center_vertical"
-                android:text="კომენტარfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdი"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -87,11 +88,11 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_amount"
+                android:fontFamily="@font/fira_go_bold"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="23"
                 android:layout_weight="0.1"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="@color/black"
                 android:gravity="end|center_vertical"/>
 
@@ -99,11 +100,12 @@
                 android:id="@+id/tv_currency"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="$"
+                android:fontFamily="@font/fira_go_book"
                 android:layout_weight="0.9"
-                android:textSize="14sp"
+                android:paddingHorizontal="5dp"
+                android:textSize="12sp"
                 android:textColor="@color/black"
-                android:gravity="end|center_vertical"/>
+                android:gravity="start|center_vertical"/>
 
         </LinearLayout>
 
