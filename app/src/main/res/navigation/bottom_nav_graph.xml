@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/convertFragment"
+        android:name="com.example.myprofile.presenter.ui.fragment.convert.ConvertFragment"
+        android:label="fragment_convert"
+        tools:layout="@layout/fragment_convert" >
+        <action
+            android:id="@+id/action_convertFragment_to_walletsFragment"
+            app:destination="@id/walletsFragment" />
+        <argument
+            android:name="type"
+            app:argType="string"
+            android:defaultValue="null" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.myprofile.presenter.ui.fragment.transaction_details.DetailsFragment"
+        android:label="fragment_details"
+        tools:layout="@layout/fragment_details" >
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="1" />
+        <argument
+            android:name="date"
+            app:argType="long"
+            android:defaultValue="12345678L" />
+        <action
+            android:id="@+id/action_detailsFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/slide_in_from_left"
+            app:popUpTo="@id/detailsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.myprofile.presenter.ui.fragment.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:popEnterAnim="@anim/slide_in_from_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/walletsFragment"
+        android:name="com.example.myprofile.presenter.ui.fragment.wallets.WalletsFragment"
+        android:label="fragment_wallets"
+        tools:layout="@layout/fragment_wallets" >
+        <action
+            android:id="@+id/action_walletsFragment_to_convertFragment"
+            app:destination="@id/convertFragment" />
+        <argument
+            android:name="type"
+            app:argType="string"
+            android:defaultValue="null" />
+    </fragment>
+</navigation>
