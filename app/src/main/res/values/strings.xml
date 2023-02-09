@@ -30,5 +30,11 @@
     <string name="zero">0.00</string>
     <string name="choose_acc">ანგარიშის არჩევა</string>
     <string name="choose_wallet">საფულეების ანგარიში</string>
+    <string name="enter_valid_number">შეიყვანეთ ვალიდური რიცხვი</string>
+    <string name="enter_digits">შეიყვანეთ რიცხვი</string>
+    <string name="choose_valid_wallet">აირჩიეთ ვალიდური ანგარიში</string>
+    <string name="service_error">სერვისი დროებით არ არის ხელმისაწვდომი</string>
+    <string name="success">ოპერაცია წარმატებით შესრულდა</string>
+    <string name="format_error">შეიყვანეთ რიცხვი 1.00 ფორმატში</string>
     <integer name="config_navAnimTime">150</integer>
 </resources>

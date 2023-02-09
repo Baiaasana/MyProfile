@@ -6,7 +6,7 @@ import com.example.myprofile.domain.repository.WalletsRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetWalletsUsesCase @Inject constructor(private val repository: WalletsRepository) {
+class GetWalletsUseCase @Inject constructor(private val repository: WalletsRepository) {
 
     suspend fun invoke(): Flow<Resource<List<WalletDomain>>>{
         return repository.getAllWallets()
