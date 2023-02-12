@@ -1,5 +1,7 @@
 package com.example.myprofile.presenter.ui.fragment.home
 
+import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -18,9 +20,40 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private val viewModel: HomeViewModel by viewModels()
     private val transactionAdapter: TransactionAdapter = TransactionAdapter()
 
+    private var scrollPosition = 1
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val layoutManager = binding.rvTransactions.layoutManager as LinearLayoutManager
+        scrollPosition = layoutManager.findFirstVisibleItemPosition()
+        outState.putInt("scroll_position", scrollPosition)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if (savedInstanceState != null) {
+            scrollPosition = savedInstanceState.getInt("scroll_position", 1)
+            binding.rvTransactions.scrollToPosition(scrollPosition)
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        scrollPosition = savedInstanceState?.getInt("scroll_position") ?: 1
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(scrollPosition != -1){
+            binding.rvTransactions.scrollToPosition(scrollPosition)
+        }
+    }
+
     override fun listeners() {
         transactionAdapter.onTransactionClickListener = {
             navigateToDetails(it)
+            onSaveInstanceState(Bundle())
         }
     }
 
